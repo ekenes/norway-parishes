@@ -34,11 +34,25 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports"], function (require, exports) {
+define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search"], function (require, exports, WebMap, MapView, search_1) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(void 0, void 0, void 0, function () {
+        var view, search;
         return __generator(this, function (_a) {
+            view = new MapView({
+                map: new WebMap({
+                    portalItem: {
+                        id: "454a0303bffb487abf2d6c2c36ff4f0f"
+                    }
+                }),
+                container: "viewDiv",
+                constraints: {
+                    snapToZoom: false
+                }
+            });
+            search = search_1.createSearchWidget(view);
+            view.ui.add(search, "top-right");
             return [2 /*return*/];
         });
     }); })();
