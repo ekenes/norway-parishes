@@ -34,26 +34,36 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search"], function (require, exports, WebMap, MapView, search_1) {
+define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "esri/widgets/Legend", "esri/widgets/Expand", "esri/widgets/LayerList"], function (require, exports, WebMap, MapView, search_1, Legend, Expand, LayerList) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(void 0, void 0, void 0, function () {
         var view, search;
         return __generator(this, function (_a) {
-            view = new MapView({
-                map: new WebMap({
-                    portalItem: {
-                        id: "454a0303bffb487abf2d6c2c36ff4f0f"
-                    }
-                }),
-                container: "viewDiv",
-                constraints: {
-                    snapToZoom: false
-                }
-            });
-            search = search_1.createSearchWidget(view);
-            view.ui.add(search, "top-right");
-            return [2 /*return*/];
+            switch (_a.label) {
+                case 0:
+                    view = new MapView({
+                        map: new WebMap({
+                            portalItem: {
+                                id: "454a0303bffb487abf2d6c2c36ff4f0f"
+                            }
+                        }),
+                        container: "viewDiv",
+                        constraints: {
+                            snapToZoom: false
+                        }
+                    });
+                    return [4 /*yield*/, view.when()];
+                case 1:
+                    _a.sent();
+                    search = search_1.createSearchWidget(view);
+                    view.ui.add(new Expand({ content: search, view: view }), "top-right");
+                    // BEGIN_
+                    // END_
+                    view.ui.add(new Expand({ view: view, content: new Legend({ view: view }) }), "bottom-left");
+                    view.ui.add(new Expand({ view: view, content: new LayerList({ view: view }) }), "bottom-left");
+                    return [2 /*return*/];
+            }
         });
     }); })();
 });

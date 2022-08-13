@@ -2,6 +2,9 @@ import esri = __esri;
 import WebMap = require("esri/WebMap");
 import MapView = require("esri/views/MapView");
 import { createSearchWidget } from "./search";
+import Legend = require("esri/widgets/Legend");
+import Expand = require("esri/widgets/Expand");
+import LayerList = require("esri/widgets/LayerList");
 
 ( async () => {
 
@@ -17,7 +20,15 @@ import { createSearchWidget } from "./search";
     }
   });
 
+  await view.when();
+
   const search = createSearchWidget(view);
-  view.ui.add(search, "top-right");
+  view.ui.add(new Expand({ content: search, view }), "top-right");
+
+  // BEGIN_
+  // END_
+
+  view.ui.add(new Expand({ view, content: new Legend({ view }) }), "bottom-left");
+  view.ui.add(new Expand({ view, content: new LayerList({ view }) }), "bottom-left");
 
 })();
