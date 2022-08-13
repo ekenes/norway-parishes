@@ -1,0 +1,224 @@
+<!--
+
+To run this demo, you need to replace 'YOUR_API_KEY' with an API key from the ArcGIS Developers dashboard.
+
+Sign up for a free account and get an API key.
+
+https://developers.arcgis.com/documentation/mapping-apis-and-services/get-started/
+
+ -->
+ <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>
+      Search widget with multiple sources | Sample | ArcGIS API for JavaScript
+      4.24
+    </title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.24/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.24/"></script>
+
+    <script>
+      require([
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/geometry/Point",
+        "esri/geometry/Extent",
+        "esri/Graphic",
+        "esri/layers/FeatureLayer",
+        "esri/widgets/Search",
+        "esri/widgets/Search/SearchSource",
+        "esri/request"
+      ], (Map, MapView, Point, Extent, Graphic, FeatureLayer, Search, SearchSource, esriRequest) => {
+        const map = new Map({
+          basemap: "dark-gray-vector"
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map,
+          center: [10, 58], // lon, lat
+          scale: 10000000
+        });
+
+        // rest APIs - https://ws.geonorge.no/stedsnavn/v1
+
+        // https://ws.geonorge.no/stedsnavn/v1/navn?sok=ekenes*&treffPerSide=15&side=1
+
+        const ExampleUrl = "https://ws.geonorge.no/stedsnavn/v1/navn?sok=ekenes*&treffPerSide=15&side=1";
+        const url = "https://ws.geonorge.no/stedsnavn/v1/navn";
+
+        const pointUrl = "https://ws.geonorge.no/stedsnavn/v1/punkt?nord=6514847.330297076&ost=155569.23315635487&treffPerSide=35&koordsys=25833&radius=150&side=1";
+
+        const customSearchSource = new SearchSource({
+          placeholder: "example: Ekenes",
+          // Provide a getSuggestions method to provide suggestions to the Search widget
+          getSuggestions: (params) => {
+            // You can request data from a third-party source to find some
+            // suggestions with provided suggestTerm the user types in the Search widget
+            // https://developers.arcgis.com/javascript/latest/api-reference/esri-request.html#RequestOptions
+            return esriRequest(url, {
+              query: {
+                // what goes into query? e.g. location search >> parameters
+                sok: `${params.suggestTerm}*`,
+                // lat: view.center.latitude,
+                // lon: view.center.longitude
+              },
+              responseType: "json"
+            }).then((results) => {
+              // Return Suggestion results to display in the Search widget
+              return results.data.navn.map((result) => {
+                const name = result.skrivemåte;
+                const type = result.navneobjekttype;
+                const muni = result.kommuner[0].kommunenavn;
+                const county = result.fylker[0].fylkesnavn;
+                const knr = result.kommuner[0].kommunenummer;
+                const fnr = result.fylker[0].fylkesnummer;
+
+
+                const location = result.representasjonspunkt;
+                const lat = location.nord;
+                const long = location.øst;
+
+                return {
+                  key: name,
+                  location,
+                  sok: name, // will be used in getResults
+                  text: `${name} (${type}), ${muni}, ${county}`,
+                  test: "Kristian",
+                  sourceIndex: params.sourceIndex,
+                  lat,
+                  long,
+                  knr,
+                  fnr
+                };
+              });
+            });
+          },
+
+          // Provide a getResults method to find results from the suggestions
+          getResults: (params) => {
+            const { sok, knr, fnr } = params.suggestResult;
+            return esriRequest(url, {
+              query: {
+                // what goes into query? e.g. location search >> parameters
+                sok, knr, fnr
+              },
+              responseType: "json"
+            }).then((results) => {
+              // Parse the results of your custom search
+              const searchResults = results.data.navn.map((result) => {
+                // Create a Graphic the Search widget can display
+
+                const name = result.skrivemåte;
+                const type = result.navneobjekttype;
+                const muni = result.kommuner[0].kommunenavn;
+                const county = result.fylker[0].fylkesnavn;
+
+                const label = `${name} (${type}), ${muni}, ${county}`;
+
+                const location = result.representasjonspunkt;
+                const lat = location.nord;
+                const long = location.øst;
+
+                const attributes = {
+                  name,
+                  type,
+                  muni,
+                  county,
+                  lat,
+                  long
+                };
+
+                const graphic = new Graphic({
+                  geometry: new Point({
+                    x: long,
+                    y: lat,
+                    spatialReference: {
+                      wkid: 4326
+                    }
+                  }),
+                  attributes
+                });
+                // Return a Search Result
+                const searchResult = {
+                  feature: graphic,
+                  name: label
+                };
+                return searchResult;
+              });
+              // Return an array of Search Results
+              return searchResults;
+            });
+          }
+        });
+
+
+        const searchWidget = new Search({
+          view: view,
+          allPlaceholder: "District or Senator",
+          includeDefaultSources: false,
+          sources: [ customSearchSource ]
+        });
+
+        // searchWidget.on([
+        //   "search-complete",
+        //   "search-start",
+        //   "select-result",
+        //   "suggest-complete",
+        //   "suggest-start"
+        // ], (event) => {
+        //   console.log(event);
+        // });
+
+        searchWidget.on("search-complete", (event) => {
+          console.log("search-complete");
+          console.log(event);
+        });
+        searchWidget.on("search-start", (event) => {
+          console.log("search-start");
+          console.log(event);
+        });
+        searchWidget.on("select-result", (event) => {
+          console.log("select-result");
+          console.log(event);
+        });
+        searchWidget.on("suggest-complete", (event) => {
+          console.log("suggest-complete");
+          console.log(event);
+        });
+        searchWidget.on("suggest-start", (event) => {
+          console.log("suggest-start");
+          console.log(event);
+        });
+
+        // Add the search widget to the top left corner of the view
+        view.ui.add(searchWidget, {
+          position: "top-right"
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>

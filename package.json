@@ -1,0 +1,26 @@
+{
+  "name": "norway-parishes",
+  "version": "3.0.0",
+  "description": "Allows users to search Norwegian place names and parishes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ekenes/norway-parishes.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ekenes/norway-parishes/issues"
+  },
+  "homepage": "https://github.com/ekenes/norway-parishes#readme",
+  "dependencies": {
+    "tslib": "~2.4.0"
+  },
+  "devDependencies": {
+    "@types/arcgis-js-api": "4.24"
+  }
+}
