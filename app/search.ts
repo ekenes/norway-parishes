@@ -5,7 +5,8 @@ import Graphic = require("esri/Graphic");
 import { Point } from "esri/geometry";
 import Search = require("esri/widgets/Search");
 import MapView = require("esri/views/MapView");
-import { SimpleMarkerSymbol } from "esri/symbols";
+import { SimpleFillSymbol, SimpleMarkerSymbol } from "esri/symbols";
+import LayerSearchSource = require("esri/widgets/Search/LayerSearchSource");
 
 // rest APIs - https://ws.geonorge.no/stedsnavn/v1
 // const ExampleUrl = "https://ws.geonorge.no/stedsnavn/v1/navn?sok=ekenes*&treffPerSide=15&side=1";
@@ -17,7 +18,7 @@ const spatialReference = {
 
 export function createFarmSearchWidget(view: MapView){
 
-  const searchResultsLayer = view.map.layers.find( layer => layer.title === "search-results") as esri.GraphicsLayer;
+  const searchResultsLayer = view.map.layers.find( layer => layer.title === "parish-search-results") as esri.GraphicsLayer;
 
   const customSearchSource = new SearchSource({
     placeholder: "example: Ekenes",
@@ -160,6 +161,125 @@ export function createFarmSearchWidget(view: MapView){
       });
     });
     searchResultsLayer.addMany(graphics);
+  });
+  searchWidget.on("suggest-start", (event) => {
+    console.log("suggest-start");
+    console.log(event);
+  });
+
+  return searchWidget;
+};
+
+export function createParishSearchWidget(view: MapView){
+
+  const searchResultsLayer = view.map.layers.find( layer => layer.title === "county-search-results") as esri.GraphicsLayer;
+
+  const parishLayer = view.map.layers.find( layer => layer.title === "Parishes (sokn)") as esri.FeatureLayer;
+  const prestegjeldLayer = view.map.layers.find( layer => layer.title === "Prestegjeld") as esri.FeatureLayer;
+  const countiesLayer = view.map.layers.find( layer => layer.title === "Counties (fylke)") as esri.FeatureLayer;
+
+  const searchWidget = new Search({
+    view,
+    allPlaceholder: "Search parish or county",
+    includeDefaultSources: false,
+    sources: [
+      new LayerSearchSource({
+        autoNavigate: true,
+        layer: parishLayer,
+        searchFields: ["Par_NAME"],
+        popupEnabled: true,
+        suggestionTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
+        searchTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
+        displayField: "Par_NAME",
+        exactMatch: false,
+        outFields: ["Par_NAME", "BEGIN_", "END_"],
+        name: "Parishes (sokn)",
+        placeholder: "Dypvåg"
+      }),
+      new LayerSearchSource({
+        autoNavigate: true,
+        layer: countiesLayer,
+        searchFields: ["COUNTY"],
+        suggestionTemplate: "{COUNTY} ({BEGIN_}-{END_})",
+        exactMatch: false,
+        outFields: ["COUNTY", "BEGIN_", "END_"],
+        placeholder: "example: Casey",
+        name: "Counties (fylke)",
+      })
+     ],
+    locationEnabled: false
+  });
+
+  searchWidget.on("search-complete", (event) => {
+    console.log("search-complete");
+    console.log(event);
+
+    searchResultsLayer.removeAll();
+
+    const graphics = event.results[0].results.map((result: any) => {
+      return new Graphic({
+        geometry: new Point({
+          x: result.long,
+          y: result.lat,
+          spatialReference
+        }),
+        attributes: {
+          name: result.key,
+          type: result.type,
+          municipality: result.municipality,
+          county: result.county
+        },
+        symbol: new SimpleMarkerSymbol({
+          style: "diamond",
+          color: "pink",
+          size: 18,
+          outline: {
+            width: 1,
+            color: "brown"
+          }
+        })
+      });
+    });
+    searchResultsLayer.addMany(graphics);
+  });
+  searchWidget.on("search-start", (event) => {
+    console.log("search-start");
+    console.log(event);
+  });
+  searchWidget.on("select-result", (event) => {
+    console.log("select-result");
+    console.log(event);
+  });
+  searchWidget.on("suggest-complete", (event) => {
+    console.log("suggest-complete");
+    console.log(event);
+    searchResultsLayer.removeAll();
+
+    // const graphics = event.results[0].results.map((result: any) => {
+    //   return new Graphic({
+    //     geometry: new Point({
+    //       x: result.long,
+    //       y: result.lat,
+    //       spatialReference
+    //     }),
+    //     attributes: {
+    //       name: result.key,
+    //       type: result.type,
+    //       municipality: result.municipality,
+    //       county: result.county
+    //     },
+    //     symbol: new SimpleMarkerSymbol({
+    //       style: "diamond",
+    //       color: "pink",
+    //       size: 18,
+    //       outline: {
+    //         width: 1,
+    //         color: "brown"
+    //       }
+    //     })
+    //   });
+    // });
+    // searchResultsLayer.addMany(graphics);
   });
   searchWidget.on("suggest-start", (event) => {
     console.log("suggest-start");

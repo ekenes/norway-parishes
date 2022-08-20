@@ -1,4 +1,4 @@
-define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request", "esri/Graphic", "esri/geometry", "esri/widgets/Search", "esri/symbols"], function (require, exports, SearchSource, request, Graphic, geometry_1, Search, symbols_1) {
+define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request", "esri/Graphic", "esri/geometry", "esri/widgets/Search", "esri/symbols", "esri/widgets/Search/LayerSearchSource"], function (require, exports, SearchSource, request, Graphic, geometry_1, Search, symbols_1, LayerSearchSource) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     // rest APIs - https://ws.geonorge.no/stedsnavn/v1
@@ -8,7 +8,7 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
         wkid: 4326
     };
     function createFarmSearchWidget(view) {
-        var searchResultsLayer = view.map.layers.find(function (layer) { return layer.title === "search-results"; });
+        var searchResultsLayer = view.map.layers.find(function (layer) { return layer.title === "parish-search-results"; });
         var customSearchSource = new SearchSource({
             placeholder: "example: Ekenes",
             getSuggestions: function (params) {
@@ -144,6 +144,118 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
         return searchWidget;
     }
     exports.createFarmSearchWidget = createFarmSearchWidget;
+    ;
+    function createParishSearchWidget(view) {
+        var searchResultsLayer = view.map.layers.find(function (layer) { return layer.title === "county-search-results"; });
+        var parishLayer = view.map.layers.find(function (layer) { return layer.title === "Parishes (sokn)"; });
+        var prestegjeldLayer = view.map.layers.find(function (layer) { return layer.title === "Prestegjeld"; });
+        var countiesLayer = view.map.layers.find(function (layer) { return layer.title === "Counties (fylke)"; });
+        var searchWidget = new Search({
+            view: view,
+            allPlaceholder: "Search parish or county",
+            includeDefaultSources: false,
+            sources: [
+                new LayerSearchSource({
+                    autoNavigate: true,
+                    layer: parishLayer,
+                    searchFields: ["Par_NAME"],
+                    popupEnabled: true,
+                    suggestionTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
+                    searchTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
+                    displayField: "Par_NAME",
+                    exactMatch: false,
+                    outFields: ["Par_NAME", "BEGIN_", "END_"],
+                    name: "Parishes (sokn)",
+                    placeholder: "Dypvåg"
+                }),
+                new LayerSearchSource({
+                    autoNavigate: true,
+                    layer: countiesLayer,
+                    searchFields: ["COUNTY"],
+                    suggestionTemplate: "{COUNTY} ({BEGIN_}-{END_})",
+                    exactMatch: false,
+                    outFields: ["COUNTY", "BEGIN_", "END_"],
+                    placeholder: "example: Casey",
+                    name: "Counties (fylke)",
+                })
+            ],
+            locationEnabled: false
+        });
+        searchWidget.on("search-complete", function (event) {
+            console.log("search-complete");
+            console.log(event);
+            searchResultsLayer.removeAll();
+            var graphics = event.results[0].results.map(function (result) {
+                return new Graphic({
+                    geometry: new geometry_1.Point({
+                        x: result.long,
+                        y: result.lat,
+                        spatialReference: spatialReference
+                    }),
+                    attributes: {
+                        name: result.key,
+                        type: result.type,
+                        municipality: result.municipality,
+                        county: result.county
+                    },
+                    symbol: new symbols_1.SimpleMarkerSymbol({
+                        style: "diamond",
+                        color: "pink",
+                        size: 18,
+                        outline: {
+                            width: 1,
+                            color: "brown"
+                        }
+                    })
+                });
+            });
+            searchResultsLayer.addMany(graphics);
+        });
+        searchWidget.on("search-start", function (event) {
+            console.log("search-start");
+            console.log(event);
+        });
+        searchWidget.on("select-result", function (event) {
+            console.log("select-result");
+            console.log(event);
+        });
+        searchWidget.on("suggest-complete", function (event) {
+            console.log("suggest-complete");
+            console.log(event);
+            searchResultsLayer.removeAll();
+            // const graphics = event.results[0].results.map((result: any) => {
+            //   return new Graphic({
+            //     geometry: new Point({
+            //       x: result.long,
+            //       y: result.lat,
+            //       spatialReference
+            //     }),
+            //     attributes: {
+            //       name: result.key,
+            //       type: result.type,
+            //       municipality: result.municipality,
+            //       county: result.county
+            //     },
+            //     symbol: new SimpleMarkerSymbol({
+            //       style: "diamond",
+            //       color: "pink",
+            //       size: 18,
+            //       outline: {
+            //         width: 1,
+            //         color: "brown"
+            //       }
+            //     })
+            //   });
+            // });
+            // searchResultsLayer.addMany(graphics);
+        });
+        searchWidget.on("suggest-start", function (event) {
+            console.log("suggest-start");
+            console.log(event);
+        });
+        return searchWidget;
+    }
+    exports.createParishSearchWidget = createParishSearchWidget;
     ;
 });
 //# sourceMappingURL=search.js.map

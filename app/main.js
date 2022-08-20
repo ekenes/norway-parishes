@@ -38,7 +38,7 @@ define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(void 0, void 0, void 0, function () {
-        var view, search;
+        var view, farmSearch, parishSearch;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -57,11 +57,17 @@ define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "
                 case 1:
                     _a.sent();
                     view.map.layers.add(new GraphicsLayer({
-                        title: "search-results",
+                        title: "parish-search-results",
                         effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
                     }));
-                    search = search_1.createSearchWidget(view);
-                    view.ui.add(new Expand({ content: search, view: view }), "top-right");
+                    view.map.layers.add(new GraphicsLayer({
+                        title: "county-search-results",
+                        effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
+                    }));
+                    farmSearch = search_1.createFarmSearchWidget(view);
+                    view.ui.add(new Expand({ content: farmSearch, view: view }), "top-right");
+                    parishSearch = search_1.createParishSearchWidget(view);
+                    view.ui.add(new Expand({ content: parishSearch, view: view }), "top-right");
                     // BEGIN_
                     // END_
                     view.ui.add(new Expand({ view: view, content: new Legend({ view: view }) }), "bottom-left");

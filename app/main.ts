@@ -1,7 +1,7 @@
 import esri = __esri;
 import WebMap = require("esri/WebMap");
 import MapView = require("esri/views/MapView");
-import { createSearchWidget } from "./search";
+import { createFarmSearchWidget, createParishSearchWidget } from "./search";
 import Legend = require("esri/widgets/Legend");
 import Expand = require("esri/widgets/Expand");
 import LayerList = require("esri/widgets/LayerList");
@@ -24,12 +24,20 @@ import { createSelect } from "./select";
 
   await view.when();
   view.map.layers.add(new GraphicsLayer({
-    title: "search-results",
+    title: "parish-search-results",
     effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
   }));
 
-  const search = createSearchWidget(view);
-  view.ui.add(new Expand({ content: search, view }), "top-right");
+  view.map.layers.add(new GraphicsLayer({
+    title: "county-search-results",
+    effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
+  }));
+
+  const farmSearch = createFarmSearchWidget(view);
+  view.ui.add(new Expand({ content: farmSearch, view }), "top-right");
+
+  const parishSearch = createParishSearchWidget(view);
+  view.ui.add(new Expand({ content: parishSearch, view }), "top-right");
 
   // BEGIN_
   // END_
