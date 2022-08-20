@@ -5,6 +5,8 @@ import { createSearchWidget } from "./search";
 import Legend = require("esri/widgets/Legend");
 import Expand = require("esri/widgets/Expand");
 import LayerList = require("esri/widgets/LayerList");
+import GraphicsLayer = require("esri/layers/GraphicsLayer");
+import { createSelect } from "./select";
 
 ( async () => {
 
@@ -21,6 +23,10 @@ import LayerList = require("esri/widgets/LayerList");
   });
 
   await view.when();
+  view.map.layers.add(new GraphicsLayer({
+    title: "search-results",
+    effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
+  }));
 
   const search = createSearchWidget(view);
   view.ui.add(new Expand({ content: search, view }), "top-right");

@@ -34,7 +34,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "esri/widgets/Legend", "esri/widgets/Expand", "esri/widgets/LayerList"], function (require, exports, WebMap, MapView, search_1, Legend, Expand, LayerList) {
+define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "esri/widgets/Legend", "esri/widgets/Expand", "esri/widgets/LayerList", "esri/layers/GraphicsLayer"], function (require, exports, WebMap, MapView, search_1, Legend, Expand, LayerList, GraphicsLayer) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -56,6 +56,10 @@ define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "
                     return [4 /*yield*/, view.when()];
                 case 1:
                     _a.sent();
+                    view.map.layers.add(new GraphicsLayer({
+                        title: "search-results",
+                        effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
+                    }));
                     search = search_1.createSearchWidget(view);
                     view.ui.add(new Expand({ content: search, view: view }), "top-right");
                     // BEGIN_

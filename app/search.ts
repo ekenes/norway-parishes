@@ -1,107 +1,114 @@
+import esri = __esri;
 import SearchSource = require("esri/widgets/Search/SearchSource");
 import request = require("esri/request");
 import Graphic = require("esri/Graphic");
 import { Point } from "esri/geometry";
 import Search = require("esri/widgets/Search");
 import MapView = require("esri/views/MapView");
+import { SimpleMarkerSymbol } from "esri/symbols";
 
 // rest APIs - https://ws.geonorge.no/stedsnavn/v1
 // const ExampleUrl = "https://ws.geonorge.no/stedsnavn/v1/navn?sok=ekenes*&treffPerSide=15&side=1";
 const url = "https://ws.geonorge.no/stedsnavn/v1/navn";
 
-const customSearchSource = new SearchSource({
-  placeholder: "example: Ekenes",
+const spatialReference = {
+  wkid: 4326
+};
 
-  getSuggestions: (params) => {
+export function createFarmSearchWidget(view: MapView){
 
-    return request(url, {
-      query: {
-        sok: `${params.suggestTerm}*`,
-      },
-      responseType: "json"
-    }).then((results) => {
+  const searchResultsLayer = view.map.layers.find( layer => layer.title === "search-results") as esri.GraphicsLayer;
 
-      return results.data.navn.map((result: any) => {
-        const name = result.skrivemåte;
-        const type = result.navneobjekttype;
-        const muni = result.kommuner[0].kommunenavn;
-        const county = result.fylker[0].fylkesnavn;
-        const knr = result.kommuner[0].kommunenummer;
-        const fnr = result.fylker[0].fylkesnummer;
+  const customSearchSource = new SearchSource({
+    placeholder: "example: Ekenes",
 
-        const location = result.representasjonspunkt;
-        const lat = location.nord;
-        const long = location.øst;
+    getSuggestions: (params) => {
 
-        return {
-          key: name,
-          location,
-          sok: name,
-          text: `${name} (${type}), ${muni}, ${county}`,
-          sourceIndex: params.sourceIndex,
-          lat,
-          long,
-          knr,
-          fnr
-        };
-      });
-    });
-  },
+      return request(url, {
+        query: {
+          sok: `${params.suggestTerm}*`,
+        },
+        responseType: "json"
+      }).then((results) => {
 
-  // Provide a getResults method to find results from the suggestions
-  getResults: (params) => {
-    const { sok, knr, fnr } = params.suggestResult;
-    return request(url, {
-      query: { sok, knr, fnr },
-      responseType: "json"
-    }).then((results) => {
-      // Parse the results of your custom search
-      const searchResults = results.data.navn.map((result: any) => {
+        return results.data.navn.map((result: any) => {
+          const name = result.skrivemåte;
+          const type = result.navneobjekttype;
+          const municipality = result.kommuner[0].kommunenavn;
+          const county = result.fylker[0].fylkesnavn;
+          const knr = result.kommuner[0].kommunenummer;
+          const fnr = result.fylker[0].fylkesnummer;
 
-        const name = result.skrivemåte;
-        const type = result.navneobjekttype;
-        const muni = result.kommuner[0].kommunenavn;
-        const county = result.fylker[0].fylkesnavn;
+          const location = result.representasjonspunkt;
+          const lat = location.nord;
+          const long = location.øst;
 
-        const label = `${name} (${type}), ${muni}, ${county}`;
-
-        const location = result.representasjonspunkt;
-        const lat = location.nord;
-        const long = location.øst;
-
-        const attributes = {
-          name,
-          type,
-          muni,
-          county,
-          lat,
-          long
-        };
-
-        const graphic = new Graphic({
-          geometry: new Point({
-            x: long,
-            y: lat,
-            spatialReference: {
-              wkid: 4326
-            }
-          }),
-          attributes
+          return {
+            key: name,
+            location,
+            sok: name,
+            text: `${name} (${type}), ${municipality}, ${county}`,
+            type,
+            sourceIndex: params.sourceIndex,
+            lat,
+            long,
+            knr,
+            fnr
+          };
         });
-        // Return a Search Result
-        const searchResult = {
-          feature: graphic,
-          name: label
-        };
-        return searchResult;
       });
-      // Return an array of Search Results
-      return searchResults;
-    });
-  }
-});
+    },
 
-export function createSearchWidget(view: MapView){
+    // Provide a getResults method to find results from the suggestions
+    getResults: (params) => {
+      const { sok, knr, fnr } = params.suggestResult;
+      return request(url, {
+        query: { sok, knr, fnr },
+        responseType: "json"
+      }).then((results) => {
+        // Parse the results of your custom search
+        const searchResults = results.data.navn.map((result: any) => {
+
+          const name = result.skrivemåte;
+          const type = result.navneobjekttype;
+          const muni = result.kommuner[0].kommunenavn;
+          const county = result.fylker[0].fylkesnavn;
+
+          const label = `${name} (${type}), ${muni}, ${county}`;
+
+          const location = result.representasjonspunkt;
+          const lat = location.nord;
+          const long = location.øst;
+
+          const attributes = {
+            name,
+            type,
+            muni,
+            county,
+            lat,
+            long
+          };
+
+          const graphic = new Graphic({
+            geometry: new Point({
+              x: long,
+              y: lat,
+              spatialReference
+            }),
+            attributes
+          });
+          // Return a Search Result
+          const searchResult = {
+            feature: graphic,
+            name: label
+          };
+          return searchResult;
+        });
+        // Return an array of Search Results
+        return searchResults;
+      });
+    }
+  });
 
   const searchWidget = new Search({
     view: view,
@@ -126,6 +133,33 @@ export function createSearchWidget(view: MapView){
   searchWidget.on("suggest-complete", (event) => {
     console.log("suggest-complete");
     console.log(event);
+    searchResultsLayer.removeAll();
+
+    const graphics = event.results[0].results.map((result: any) => {
+      return new Graphic({
+        geometry: new Point({
+          x: result.long,
+          y: result.lat,
+          spatialReference
+        }),
+        attributes: {
+          name: result.key,
+          type: result.type,
+          municipality: result.municipality,
+          county: result.county
+        },
+        symbol: new SimpleMarkerSymbol({
+          style: "diamond",
+          color: "pink",
+          size: 18,
+          outline: {
+            width: 1,
+            color: "brown"
+          }
+        })
+      });
+    });
+    searchResultsLayer.addMany(graphics);
   });
   searchWidget.on("suggest-start", (event) => {
     console.log("suggest-start");
