@@ -7,6 +7,10 @@ import Expand = require("esri/widgets/Expand");
 import LayerList = require("esri/widgets/LayerList");
 import GraphicsLayer = require("esri/layers/GraphicsLayer");
 import { createSelect } from "./select";
+import TileLayer = require("esri/layers/TileLayer");
+import GroupLayer = require("esri/layers/GroupLayer");
+import UniqueValueInfo = require("esri/renderers/support/UniqueValueInfo");
+import { UniqueValueRenderer } from "esri/rasterRenderers";
 
 ( async () => {
 
@@ -19,19 +23,51 @@ import { createSelect } from "./select";
     container: "viewDiv",
     constraints: {
       snapToZoom: false
+    },
+    highlightOptions: {
+      fillOpacity: 0,
+      haloOpacity: 0
     }
   });
 
   await view.when();
-  view.map.layers.add(new GraphicsLayer({
-    title: "parish-search-results",
-    effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
-  }));
 
-  view.map.layers.add(new GraphicsLayer({
-    title: "county-search-results",
-    effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
-  }));
+  const worldImagery = new TileLayer({
+    title: "world-imagery",
+    portalItem: {
+      id: "10df2279f9684e4a9f6a7f08febac2a9"
+    }
+  });
+
+  const focusedImagery = new TileLayer({
+    portalItem: {
+      id: "10df2279f9684e4a9f6a7f08febac2a9"
+    }
+  });
+
+  const groupLayer = new GroupLayer({
+    title: "group-layer-results",
+    layers: [
+      focusedImagery,
+      new GraphicsLayer({
+        blendMode: "destination-in",
+        title: "parish-search-results"
+      }),
+      // new GraphicsLayer({
+      //   blendMode: "destination-in",
+      //   title: "county-search-results"
+      // })
+    ],
+    opacity: 0
+  });
+
+  // new UniqueValueRenderer({
+  //   fiel
+  // })
+
+
+  view.map.layers.unshift(groupLayer);
+  view.map.layers.unshift(worldImagery);
 
   const farmSearch = createFarmSearchWidget(view);
   view.ui.add(new Expand({ content: farmSearch, view }), "top-right");

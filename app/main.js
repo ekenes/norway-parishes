@@ -34,11 +34,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "esri/widgets/Legend", "esri/widgets/Expand", "esri/widgets/LayerList", "esri/layers/GraphicsLayer"], function (require, exports, WebMap, MapView, search_1, Legend, Expand, LayerList, GraphicsLayer) {
+define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "esri/widgets/Legend", "esri/widgets/Expand", "esri/widgets/LayerList", "esri/layers/GraphicsLayer", "esri/layers/TileLayer", "esri/layers/GroupLayer"], function (require, exports, WebMap, MapView, search_1, Legend, Expand, LayerList, GraphicsLayer, TileLayer, GroupLayer) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     (function () { return __awaiter(void 0, void 0, void 0, function () {
-        var view, farmSearch, parishSearch;
+        var view, worldImagery, focusedImagery, groupLayer, farmSearch, parishSearch;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -51,19 +51,42 @@ define(["require", "exports", "esri/WebMap", "esri/views/MapView", "./search", "
                         container: "viewDiv",
                         constraints: {
                             snapToZoom: false
+                        },
+                        highlightOptions: {
+                            fillOpacity: 0,
+                            haloOpacity: 0
                         }
                     });
                     return [4 /*yield*/, view.when()];
                 case 1:
                     _a.sent();
-                    view.map.layers.add(new GraphicsLayer({
-                        title: "parish-search-results",
-                        effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
-                    }));
-                    view.map.layers.add(new GraphicsLayer({
-                        title: "county-search-results",
-                        effect: "bloom(1.5, 0.5px, 0.1) drop-shadow(3px, 3px, 3px, black)"
-                    }));
+                    worldImagery = new TileLayer({
+                        title: "world-imagery",
+                        portalItem: {
+                            id: "10df2279f9684e4a9f6a7f08febac2a9"
+                        }
+                    });
+                    focusedImagery = new TileLayer({
+                        portalItem: {
+                            id: "10df2279f9684e4a9f6a7f08febac2a9"
+                        }
+                    });
+                    groupLayer = new GroupLayer({
+                        title: "group-layer-results",
+                        layers: [
+                            focusedImagery,
+                            new GraphicsLayer({
+                                blendMode: "destination-in",
+                                title: "parish-search-results"
+                            }),
+                        ],
+                        opacity: 0
+                    });
+                    // new UniqueValueRenderer({
+                    //   fiel
+                    // })
+                    view.map.layers.unshift(groupLayer);
+                    view.map.layers.unshift(worldImagery);
                     farmSearch = search_1.createFarmSearchWidget(view);
                     view.ui.add(new Expand({ content: farmSearch, view: view }), "top-right");
                     parishSearch = search_1.createParishSearchWidget(view);

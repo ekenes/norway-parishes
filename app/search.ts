@@ -172,7 +172,10 @@ export function createFarmSearchWidget(view: MapView){
 
 export function createParishSearchWidget(view: MapView){
 
-  const searchResultsLayer = view.map.layers.find( layer => layer.title === "county-search-results") as esri.GraphicsLayer;
+  const worldImageryLayer = view.map.layers.find( layer => layer.title === "world-imagery") as esri.TileLayer;
+  const groupLayer = view.map.layers.find( layer => layer.title === "group-layer-results") as esri.GroupLayer;
+
+  const searchResultsLayer = groupLayer.layers.find( layer => layer.title === "parish-search-results") as esri.GraphicsLayer;
 
   const parishLayer = view.map.layers.find( layer => layer.title === "Parishes (sokn)") as esri.FeatureLayer;
   const prestegjeldLayer = view.map.layers.find( layer => layer.title === "Prestegjeld") as esri.FeatureLayer;
@@ -182,12 +185,14 @@ export function createParishSearchWidget(view: MapView){
     view,
     allPlaceholder: "Search parish or county",
     includeDefaultSources: false,
+    resultGraphicEnabled: false,
     sources: [
       new LayerSearchSource({
         autoNavigate: true,
         layer: parishLayer,
         searchFields: ["Par_NAME"],
-        popupEnabled: true,
+        popupEnabled: false,
+        resultGraphicEnabled: false,
         suggestionTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
         searchTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
         displayField: "Par_NAME",
@@ -202,6 +207,8 @@ export function createParishSearchWidget(view: MapView){
         searchFields: ["COUNTY"],
         suggestionTemplate: "{COUNTY} ({BEGIN_}-{END_})",
         exactMatch: false,
+        popupEnabled: false,
+        resultGraphicEnabled: false,
         outFields: ["COUNTY", "BEGIN_", "END_"],
         placeholder: "example: Casey",
         name: "Counties (fylke)",
@@ -213,34 +220,6 @@ export function createParishSearchWidget(view: MapView){
   searchWidget.on("search-complete", (event) => {
     console.log("search-complete");
     console.log(event);
-
-    searchResultsLayer.removeAll();
-
-    const graphics = event.results[0].results.map((result: any) => {
-      return new Graphic({
-        geometry: new Point({
-          x: result.long,
-          y: result.lat,
-          spatialReference
-        }),
-        attributes: {
-          name: result.key,
-          type: result.type,
-          municipality: result.municipality,
-          county: result.county
-        },
-        symbol: new SimpleMarkerSymbol({
-          style: "diamond",
-          color: "pink",
-          size: 18,
-          outline: {
-            width: 1,
-            color: "brown"
-          }
-        })
-      });
-    });
-    searchResultsLayer.addMany(graphics);
   });
   searchWidget.on("search-start", (event) => {
     console.log("search-start");
@@ -249,37 +228,21 @@ export function createParishSearchWidget(view: MapView){
   searchWidget.on("select-result", (event) => {
     console.log("select-result");
     console.log(event);
+
+    const feature = event.result.feature;
+    feature.symbol = new SimpleFillSymbol({
+      color: "rgba(255, 255, 255, 1)",
+      outline: null
+    });
+    searchResultsLayer.graphics.add(feature);
+
+    worldImageryLayer.effect = "blur(8px) brightness(1.2) grayscale(0.8)";
+    groupLayer.effect = "brightness(1.7) drop-shadow(10px, 10px, 6px, black)";
+    groupLayer.opacity = 1;
   });
   searchWidget.on("suggest-complete", (event) => {
     console.log("suggest-complete");
     console.log(event);
-    searchResultsLayer.removeAll();
-
-    // const graphics = event.results[0].results.map((result: any) => {
-    //   return new Graphic({
-    //     geometry: new Point({
-    //       x: result.long,
-    //       y: result.lat,
-    //       spatialReference
-    //     }),
-    //     attributes: {
-    //       name: result.key,
-    //       type: result.type,
-    //       municipality: result.municipality,
-    //       county: result.county
-    //     },
-    //     symbol: new SimpleMarkerSymbol({
-    //       style: "diamond",
-    //       color: "pink",
-    //       size: 18,
-    //       outline: {
-    //         width: 1,
-    //         color: "brown"
-    //       }
-    //     })
-    //   });
-    // });
-    // searchResultsLayer.addMany(graphics);
   });
   searchWidget.on("suggest-start", (event) => {
     console.log("suggest-start");

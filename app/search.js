@@ -146,7 +146,9 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
     exports.createFarmSearchWidget = createFarmSearchWidget;
     ;
     function createParishSearchWidget(view) {
-        var searchResultsLayer = view.map.layers.find(function (layer) { return layer.title === "county-search-results"; });
+        var worldImageryLayer = view.map.layers.find(function (layer) { return layer.title === "world-imagery"; });
+        var groupLayer = view.map.layers.find(function (layer) { return layer.title === "group-layer-results"; });
+        var searchResultsLayer = groupLayer.layers.find(function (layer) { return layer.title === "parish-search-results"; });
         var parishLayer = view.map.layers.find(function (layer) { return layer.title === "Parishes (sokn)"; });
         var prestegjeldLayer = view.map.layers.find(function (layer) { return layer.title === "Prestegjeld"; });
         var countiesLayer = view.map.layers.find(function (layer) { return layer.title === "Counties (fylke)"; });
@@ -154,12 +156,14 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
             view: view,
             allPlaceholder: "Search parish or county",
             includeDefaultSources: false,
+            resultGraphicEnabled: false,
             sources: [
                 new LayerSearchSource({
                     autoNavigate: true,
                     layer: parishLayer,
                     searchFields: ["Par_NAME"],
-                    popupEnabled: true,
+                    popupEnabled: false,
+                    resultGraphicEnabled: false,
                     suggestionTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
                     searchTemplate: "{Par_NAME} ({BEGIN_}-{END_})",
                     displayField: "Par_NAME",
@@ -174,6 +178,8 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
                     searchFields: ["COUNTY"],
                     suggestionTemplate: "{COUNTY} ({BEGIN_}-{END_})",
                     exactMatch: false,
+                    popupEnabled: false,
+                    resultGraphicEnabled: false,
                     outFields: ["COUNTY", "BEGIN_", "END_"],
                     placeholder: "example: Casey",
                     name: "Counties (fylke)",
@@ -184,32 +190,6 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
         searchWidget.on("search-complete", function (event) {
             console.log("search-complete");
             console.log(event);
-            searchResultsLayer.removeAll();
-            var graphics = event.results[0].results.map(function (result) {
-                return new Graphic({
-                    geometry: new geometry_1.Point({
-                        x: result.long,
-                        y: result.lat,
-                        spatialReference: spatialReference
-                    }),
-                    attributes: {
-                        name: result.key,
-                        type: result.type,
-                        municipality: result.municipality,
-                        county: result.county
-                    },
-                    symbol: new symbols_1.SimpleMarkerSymbol({
-                        style: "diamond",
-                        color: "pink",
-                        size: 18,
-                        outline: {
-                            width: 1,
-                            color: "brown"
-                        }
-                    })
-                });
-            });
-            searchResultsLayer.addMany(graphics);
         });
         searchWidget.on("search-start", function (event) {
             console.log("search-start");
@@ -218,36 +198,19 @@ define(["require", "exports", "esri/widgets/Search/SearchSource", "esri/request"
         searchWidget.on("select-result", function (event) {
             console.log("select-result");
             console.log(event);
+            var feature = event.result.feature;
+            feature.symbol = new symbols_1.SimpleFillSymbol({
+                color: "rgba(255, 255, 255, 1)",
+                outline: null
+            });
+            searchResultsLayer.graphics.add(feature);
+            worldImageryLayer.effect = "blur(8px) brightness(1.2) grayscale(0.8)";
+            groupLayer.effect = "brightness(1.7) drop-shadow(10px, 10px, 6px, black)";
+            groupLayer.opacity = 1;
         });
         searchWidget.on("suggest-complete", function (event) {
             console.log("suggest-complete");
             console.log(event);
-            searchResultsLayer.removeAll();
-            // const graphics = event.results[0].results.map((result: any) => {
-            //   return new Graphic({
-            //     geometry: new Point({
-            //       x: result.long,
-            //       y: result.lat,
-            //       spatialReference
-            //     }),
-            //     attributes: {
-            //       name: result.key,
-            //       type: result.type,
-            //       municipality: result.municipality,
-            //       county: result.county
-            //     },
-            //     symbol: new SimpleMarkerSymbol({
-            //       style: "diamond",
-            //       color: "pink",
-            //       size: 18,
-            //       outline: {
-            //         width: 1,
-            //         color: "brown"
-            //       }
-            //     })
-            //   });
-            // });
-            // searchResultsLayer.addMany(graphics);
         });
         searchWidget.on("suggest-start", function (event) {
             console.log("suggest-start");
