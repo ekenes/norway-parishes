@@ -8,7 +8,7 @@ import NotFound from './pages/NotFound';
 
 const App = () => {
   return (
-    <BrowserRouter basename="/norway-parishes">
+    <BrowserRouter>
       <MainLayout>
         <Routes>
           <Route path="/" element={<Home />} />
