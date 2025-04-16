@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/norway-parishes/norway-flag.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Norway's Parishes</title>
+    <script type="module" crossorigin src="/norway-parishes/assets/index-BlI3-bLW.js"></script>
+    <link rel="stylesheet" crossorigin href="/norway-parishes/assets/index-DQ5T3qjA.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <script>
+      (function() {
+        // Get the saved path from sessionStorage
+        const savedPath = sessionStorage.getItem('spa-path');
+        if (savedPath) {
+          // Remove it from sessionStorage
+          sessionStorage.removeItem('spa-path');
+          // Replace the current history state with the saved path
+          const newPath = '/norway-parishes' + (savedPath === '/' ? '' : savedPath);
+          window.history.replaceState(null, null, newPath);
+        }
+      })();
+    </script>
+  </body>
+</html>

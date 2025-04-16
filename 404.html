@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mind Matters Center</title>
+    <script>
+      // Get the current path excluding domain
+      const path = window.location.pathname;
+      const repoName = '/norway-parishes';
+      
+      // Store the full path after /norway-parishes
+      const pathAfterRepo = path.slice(path.indexOf(repoName) + repoName.length);
+      
+      // Save it to sessionStorage
+      sessionStorage.setItem('spa-path', pathAfterRepo || '/');
+      
+      // Redirect to the main entry point
+      window.location.href = window.location.origin + repoName;
+    </script>
+  </head>
+  <body></body>
+</html>
