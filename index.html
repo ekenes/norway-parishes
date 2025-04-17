@@ -18,7 +18,7 @@
           // Remove it from sessionStorage
           sessionStorage.removeItem('spa-path');
           // Replace the current history state with the saved path
-          const newPath = '/norway-parishes' + (savedPath === '/' ? '' : savedPath);
+          const newPath = (savedPath === '/' ? '' : savedPath);
           window.history.replaceState(null, null, newPath);
         }
       })();
