@@ -1,0 +1,2 @@
+import{aR as i}from"./index-BSR5w7Gk.js";import{e as l}from"./globalCss-IeUjKp3y.js";import{n as s,l as c}from"./jsxFactory-byNdgf1H.js";function h({level:r,class:n,...a},o){const e=t(r);return s(`h${e}`,{...a,"aria-level":String(e),class:c(l.heading,n),role:"heading"},o)}function t(r){return i(Math.ceil(r),1,6)}function p(r,n=1){return t(r+n)}export{h as e,p as n};
+//# sourceMappingURL=Heading-DRfL2C77.js.map
