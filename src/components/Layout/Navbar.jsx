@@ -99,8 +99,10 @@ const Navbar = () => {
   ];
 
   return (
-      <div className="bg-nagcnl-green-dark">
+      <div className="bg-nagcnl-green">
+        {/*
         <div className="absolute top-0 bottom-0 left-0 right-0 bg-gradient-to-t from-[#0000004d] to-[#000000dd] bg-[length:100%_100%] bg-no-repeat"></div>
+        */}
         <nav className="bg-nagcnl-green px-[20px] bs-xxl:px-[45px] py-[15px] mx-[15px] bs-lg:mx-[30px] bs-xl:mx-[75px] bs-xxl:mx-[100px] relative">
           <div className="flex justify-between items-center">
             <a href="/" className={`shrink-0`}>
