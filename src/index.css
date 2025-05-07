@@ -1,10 +1,9 @@
 @import "@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&family=Source+Code+Pro&family=Lora:wght@400;700&ital,wght@0,400;0,700&family=Open+Sans:wght@400;700&ital,wght@0,400;0,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&family=Source+Code+Pro&family=Lora:wght@400;700&ital,wght@0,400;0,700&family=Open+Sans:wght@400;700&ital,wght@0,400;0,700&display=swap");
 
 @import url("./assets/fonts/fontawesome/css/all.css");
-
 
 @tailwind base;
 @tailwind components;
@@ -99,7 +98,7 @@ body {
 
 arcgis-map {
   display: block;
-  height: 87vh;
+  height: 76.5vh;
 }
 
 calcite-shell {
@@ -128,7 +127,7 @@ calcite-shell-panel {
 }
 
 .nagcnl-btn {
-  font-family: 'Lora', serif;
+  font-family: "Lora", serif;
   font-weight: 700;
   font-size: 20px;
   line-height: 1.8;
@@ -141,7 +140,12 @@ calcite-shell-panel {
   position: static;
   transition: all 0.3s;
 }
-.nagcnl-btn:hover, .nagcnl-btn:focus, .nagcnl-btn:active, .nagcnl-btn:active:focus, .nagcnl-btn:not(:disabled):not(.disabled):active, .nagcnl-btn:not(:disabled):not(.disabled):active:focus {
+.nagcnl-btn:hover,
+.nagcnl-btn:focus,
+.nagcnl-btn:active,
+.nagcnl-btn:active:focus,
+.nagcnl-btn:not(:disabled):not(.disabled):active,
+.nagcnl-btn:not(:disabled):not(.disabled):active:focus {
   text-decoration: none;
 }
 
@@ -152,33 +156,56 @@ calcite-shell-panel {
   outline: 0;
 }
 
-.nagcnl-btn-primary, .nagcnl-btn-green {
-  color: #FFFFFF;
+.nagcnl-btn-primary,
+.nagcnl-btn-green {
+  color: #ffffff;
   background: #005c49;
   border-color: #005c49;
 }
 
-.nagcnl-btn-primary:hover, .nagcnl-btn-green:hover, .nagcnl-btn-primary:focus, .nagcnl-btn-green:focus, .nagcnl-btn-primary:active, .nagcnl-btn-green:active, .nagcnl-btn-primary:active:focus, .nagcnl-btn-green:active:focus,  .nagcnl-btn-primary:not(:disabled):not(.disabled):active, .nagcnl-btn-green:not(:disabled):not(.disabled):active, .nagcnl-btn-primary:not(:disabled):not(.disabled):active:focus, .nagcnl-btn-green:not(:disabled):not(.disabled):active:focus {
+.nagcnl-btn-primary:hover,
+.nagcnl-btn-green:hover,
+.nagcnl-btn-primary:focus,
+.nagcnl-btn-green:focus,
+.nagcnl-btn-primary:active,
+.nagcnl-btn-green:active,
+.nagcnl-btn-primary:active:focus,
+.nagcnl-btn-green:active:focus,
+.nagcnl-btn-primary:not(:disabled):not(.disabled):active,
+.nagcnl-btn-green:not(:disabled):not(.disabled):active,
+.nagcnl-btn-primary:not(:disabled):not(.disabled):active:focus,
+.nagcnl-btn-green:not(:disabled):not(.disabled):active:focus {
   background: #012c23;
   border-color: #012c23;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.nagcnl-btn-primary[disabled]{
-  color: #FFFFFF !important;
+.nagcnl-btn-primary[disabled] {
+  color: #ffffff !important;
 }
 
-.nagcnl-btn-secondary, .nagcnl-btn-transparent-dark {
+.nagcnl-btn-secondary,
+.nagcnl-btn-transparent-dark {
   border-color: #00a897;
   color: #000000;
-  background: #FFFFFF;
-
+  background: #ffffff;
 }
 
-.nagcnl-btn-secondary:hover, .nagcnl-btn-transparent-dark:hover, .nagcnl-btn-secondary:focus, .nagcnl-btn-transparent-dark:focus, .nagcnl-btn-secondary:active, .nagcnl-btn-transparent-dark:active, .nagcnl-btn-secondary:active:focus, .nagcnl-btn-transparent-dark:active:focus,  .nagcnl-btn-secondary:not(:disabled):not(.disabled):active, .nagcnl-btn-transparent-dark:not(:disabled):not(.disabled):active, .nagcnl-btn-secondary:not(:disabled):not(.disabled):active:focus, .nagcnl-btn-transparent-dark:not(:disabled):not(.disabled):active:focus {
+.nagcnl-btn-secondary:hover,
+.nagcnl-btn-transparent-dark:hover,
+.nagcnl-btn-secondary:focus,
+.nagcnl-btn-transparent-dark:focus,
+.nagcnl-btn-secondary:active,
+.nagcnl-btn-transparent-dark:active,
+.nagcnl-btn-secondary:active:focus,
+.nagcnl-btn-transparent-dark:active:focus,
+.nagcnl-btn-secondary:not(:disabled):not(.disabled):active,
+.nagcnl-btn-transparent-dark:not(:disabled):not(.disabled):active,
+.nagcnl-btn-secondary:not(:disabled):not(.disabled):active:focus,
+.nagcnl-btn-transparent-dark:not(:disabled):not(.disabled):active:focus {
   border-color: #012c23;
   background: #012c23;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 .nagcnl-btn-tan,
@@ -188,19 +215,35 @@ calcite-shell-panel {
   background: #fff6e4;
 }
 
-.nagcnl-btn-tan:hover, .nagcnl-btn-tertiary:hover, .nagcnl-btn-tan:focus, .nagcnl-btn-tertiary:focus, .nagcnl-btn-tan:active, .nagcnl-btn-tertiary:active, .nagcnl-btn-tan:active:focus, .nagcnl-btn-tertiary:active:focus,  .nagcnl-btn-tan:not(:disabled):not(.disabled):active, .nagcnl-btn-tertiary:not(:disabled):not(.disabled):active, .nagcnl-btn-tan:not(:disabled):not(.disabled):active:focus, .nagcnl-btn-tertiary:not(:disabled):not(.disabled):active:focus {
+.nagcnl-btn-tan:hover,
+.nagcnl-btn-tertiary:hover,
+.nagcnl-btn-tan:focus,
+.nagcnl-btn-tertiary:focus,
+.nagcnl-btn-tan:active,
+.nagcnl-btn-tertiary:active,
+.nagcnl-btn-tan:active:focus,
+.nagcnl-btn-tertiary:active:focus,
+.nagcnl-btn-tan:not(:disabled):not(.disabled):active,
+.nagcnl-btn-tertiary:not(:disabled):not(.disabled):active,
+.nagcnl-btn-tan:not(:disabled):not(.disabled):active:focus,
+.nagcnl-btn-tertiary:not(:disabled):not(.disabled):active:focus {
   border-color: #fff6e4;
   background: #012c23;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
-.nagcnl-btn-transparent-light  {
+.nagcnl-btn-transparent-light {
   border-color: #fff6e4;
   color: #fff6e4;
   background: transparent;
 }
 
-.nagcnl-btn-transparent-light:hover, .nagcnl-btn-transparent-light:focus, .nagcnl-btn-transparent-light:active, .nagcnl-btn-transparent-light:active:focus, .nagcnl-btn-transparent-light:not(:disabled):not(.disabled):active, .nagcnl-btn-transparent-light:not(:disabled):not(.disabled):active:focus {
+.nagcnl-btn-transparent-light:hover,
+.nagcnl-btn-transparent-light:focus,
+.nagcnl-btn-transparent-light:active,
+.nagcnl-btn-transparent-light:active:focus,
+.nagcnl-btn-transparent-light:not(:disabled):not(.disabled):active,
+.nagcnl-btn-transparent-light:not(:disabled):not(.disabled):active:focus {
   border-color: #fff6e4;
   background: #012c23;
   color: #fff6e4;
@@ -225,7 +268,7 @@ calcite-shell-panel {
   border-bottom-left-radius: 0;
 }
 
-.nagcnl-input-group > :not(:first-child){
+.nagcnl-input-group > :not(:first-child) {
   margin-left: -1px;
 }
 .nagcnl-input-group > .separator {
