@@ -1,52 +1,7 @@
 import React from 'react';
-// Import images
-import churchImage from '../assets/images/A_church_of_norge.jpg';
-import kirkesokImage from '../assets/images/A_Kirkesok.jpg';
-import familySearchImage from '../assets/images/familySearch.jpeg';
-import kartverketImage from '../assets/images/kartverket.jpg';
-import digitalarkivetImage from '../assets/images/logo_digitalarkivet.jpg';
-import riksarkivetImage from '../assets/images/Riksarkivet.jpg';
 
 const About = () => {
-    const acknowledgments = [
-        {
-            organization: "State Mapping Authority of Norway",
-            description: "For providing the municipal and county boundaries in GIS format and the data used to create the parish boundaries on a national scale. Norway and Europe topo web services were also provided courtesy Kartverket.",
-            image: kartverketImage,
-            url: "https://kartverket.no/"
-        },
-        {
-            organization: "FamilySearch",
-            description: "Parish maps on a county scale were used as reference to help create a GIS dataset of parish boundaries. FamilySearch also provided valuable information regarding the former jurisdictions of most parishes.",
-            image: familySearchImage,
-            url: "https://familysearch.org/"
-        },
-        {
-            organization: "State Church of Norway",
-            description: "Provided valuable information describing how parishes are organized today and offered recommendations on who to contact to obtain current GIS data for parishes.",
-            image: churchImage,
-            url: "https://www.kirken.no/english/index.cfm"
-        },
-        {
-            organization: "Kirkesok",
-            description: "All photos of churches as viewed in NorwayParishes.com are courtesy of Kirkesok.no.",
-            image: kirkesokImage,
-            url: "http://www.kirkesok.no/eng"
-        },
-        {
-            organization: "Digital Archives of Norway",
-            description: "For providing official maps of Norway's parishes as they were in 1979 and 1801. The Digital Archives also provided sound guidance for this project.",
-            image: digitalarkivetImage,
-            url: "http://www.arkivverket.no/eng/Digitalarkivet"
-        },
-        {
-            organization: "National Archives of Norway",
-            description: "For providing guidance and information regarding best practices in conducting genealogical research and the presentation of geographic data relating to that research.",
-            image: riksarkivetImage,
-            url: "http://arkivverket.no/"
-        }
-    ];
-
+   
     return (
         <div className="bg-brand-background-light min-h-screen">
             {/* Hero Section with gradient overlay */}
@@ -161,54 +116,6 @@ const About = () => {
                             <p className="text-brand-text-secondary">
                                 While county and municipal boundaries show current jurisdictions, parish boundaries reflect their 1979 status. This data comes from the Norwegian Mapping Authority and Norwegian National Archives.
                             </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Acknowledgments Section */}
-            <div className="bg-brand-background-paper py-16">
-                <div className="max-w-6xl mx-auto px-4">
-                    <h2 className="font-heading text-3xl text-brand-primary mb-8">Acknowledgments</h2>
-                    <p className="text-brand-text-secondary text-lg mb-12 max-w-6xl">
-                        NorwayParishes.com offers a special thank you to the following organizations for their help and support with this project.
-                        Without their help, guidance and support, this project would not have been possible.
-                    </p>
-
-                    <div className="flex  justify-center ">
-                        <div className="flex flex-wrap justify-center w-full max-w-6xl">
-                            {acknowledgments.map((ack, index) => (
-                                <div
-                                    key={index}
-                                    className="p-6 rounded-xl bg-brand-background-light border border-brand-primary/10 hover:shadow-lg transition-all duration-300 m-4 w-[32rem]  overflow-clip"
-                                >
-                                    <div className="flex justify-center items-center gap-4 mb-4">
-
-                                        <h3 className="font-heading text-2xl text-brand-accent-burgundy">
-                                            {ack.organization}
-                                        </h3>
-                                    </div>
-                                    <div className="flex items-center">
-                                        <div className="flex-shrink-0 w-36 object-fit bg-brand-background-paper rounded-lg p-2 flex items-center justify-center mr-2">
-                                            <a
-                                                href={ack.url}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-sm text-brand-text-link hover:text-brand-text-linkHover transition-colors duration-200 flex items-center gap-1"
-                                            >
-                                                <img
-                                                    src={ack.image}
-                                                    alt={`${ack.organization} logo`}
-                                                    className="max-w-full max-h-full object-contain"
-                                                />
-                                            </a>
-                                        </div>
-                                        <p className="text-brand-text-secondary">
-                                            {ack.description}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 //import logo from '../../assets/images/nagcnl-logo-color.png';
 //import logo2x from '../../assets/images/nagcnl-logo-color@2x.png';
-import logo from '../../assets/images/nagcnl-logo-white.png';
-import logo2x from '../../assets/images/nagcnl-logo-white@2x.png';
+import logo from "../../assets/images/nagcnl-logo-white.png";
+import logo2x from "../../assets/images/nagcnl-logo-white@2x.png";
 
 const Footer = () => {
   /*
@@ -136,49 +136,56 @@ const Footer = () => {
    */
 
   return (
-      <footer className={`bg-nagcnl-green`} >
-        <div className={`bs-container`}>
-          <div className={`flex flex-col bs-lg:flex-row justify-between items-center text-white`}>
+    <footer className={`bg-nagcnl-green`}>
+      <div className={`bs-container`}>
+        <div
+          className={`flex flex-col bs-lg:flex-row justify-between items-center text-white`}
+        >
+          <a href="/" className={`flex-1 py-[20px] px-[20px]`}>
+            <img
+              src=""
+              alt="NAGCNL Logo"
+              className={` lazy`}
+              data-srcset={`${logo2x} 2x, ${logo} 1x`}
+              data-src={logo} // fallback if srcset isn't supported
+            />
+          </a>
 
-            <a href="/" className={`flex-1 py-[20px] px-[20px]`}>
-              <img src=""
-                   alt="NAGCNL Logo"
-                   className={` lazy`}
-                   data-srcset={`${logo2x} 2x, ${logo} 1x`}
-                   data-src={logo} // fallback if srcset isn't supported
-              />
-            </a>
+          <a
+            href="https://www.google.com/maps/place/Norwegian+American+Genealogical+Center+and+Naeseth+Library/@43.069947,-89.3902357,17z/data=!3m1!4b1!4m12!1m6!3m5!1s0x8806533a6b1b2fa9:0x84085b4e95ed0971!2sNorwegian+American+Genealogical+Center+and+Naeseth+Library!8m2!3d43.0700424!4d-89.3881708!3m4!1s0x8806533a6b1b2fa9:0x84085b4e95ed0971!8m2!3d43.0700424!4d-89.3881708"
+            className={`flex flex-1 py-[20px] px-[20px]`}
+          >
+            <i
+              className={`fas fa-map-marker-alt mt-[3px] mr-[10px] text-[20px]`}
+            ></i>
+            <div className={`info text-[15px] font-opensans flex-1`}>
+              415 West Main Street,
+              <br />
+              Madison, WI 53703-3116
+            </div>
+          </a>
 
-            <a href="https://www.google.com/maps/place/Norwegian+American+Genealogical+Center+and+Naeseth+Library/@43.069947,-89.3902357,17z/data=!3m1!4b1!4m12!1m6!3m5!1s0x8806533a6b1b2fa9:0x84085b4e95ed0971!2sNorwegian+American+Genealogical+Center+and+Naeseth+Library!8m2!3d43.0700424!4d-89.3881708!3m4!1s0x8806533a6b1b2fa9:0x84085b4e95ed0971!8m2!3d43.0700424!4d-89.3881708"
-               className={`flex flex-1 py-[20px] px-[20px]`}
-            >
-              <i className={`fas fa-map-marker-alt mt-[3px] mr-[10px] text-[20px]`}></i>
+          <div className={`lex-1 py-[20px] px-[20px]`}>
+            <a href="tel:6082552224" className={`flex`}>
+              <i
+                className={`icon fas fa-phone mt-[3px] mr-[10px] text-[20px]`}
+              ></i>
               <div className={`info text-[15px] font-opensans flex-1`}>
-                415 West Main Street,<br/>Madison, WI 53703-3116
+                (608) 255-2224
               </div>
             </a>
 
-            <div className={`lex-1 py-[20px] px-[20px]`}>
-              <a href="tel:6082552224" className={`flex`}>
-                <i className={`icon fas fa-phone mt-[3px] mr-[10px] text-[20px]`}></i>
-                <div className={`info text-[15px] font-opensans flex-1`}>
-                  (608) 255-2224
-                </div>
-              </a>
-
-              <div className={`flex mt-[10px]`}>
-                <i className="icon fas fa-building mt-[3px] mr-[10px] text-[20px]"></i>
-                <div className={`info text-[15px] font-opensans flex-1`}>
-                  FEIN: 35-2282921
-                </div>
+            <div className={`flex mt-[10px]`}>
+              <i className="icon fas fa-building mt-[3px] mr-[10px] text-[20px]"></i>
+              <div className={`info text-[15px] font-opensans flex-1`}>
+                FEIN: 35-2282921
               </div>
             </div>
-
-
           </div>
         </div>
-      </footer>
-      /*
+      </div>
+    </footer>
+    /*
     <footer className={`bg-nagcnl-white`} >
       <div className={`px-[15px] bs-md:px-[20px] bs-lg:px-[30px] bs-xl:px-[75px] bs-xxl:px-[100px]`}>
         <div className={`pb-[70px] pt-[50px] bs-lg:pt-[150px] px-[15px] bs-sm:px-[45px]`}>
