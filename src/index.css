@@ -98,11 +98,12 @@ body {
 
 arcgis-map {
   display: block;
-  height: 76.5vh;
+  height: 100%;
 }
 
 calcite-shell {
   position: relative;
+  height: 80vh;
 }
 
 calcite-shell-panel {
@@ -119,7 +120,7 @@ calcite-shell-panel {
 }
 
 .esri-widget--panel {
-  height: 70vh;
+  height: 80vh;
 }
 
 .esri-basemap-gallery:focus-within {
