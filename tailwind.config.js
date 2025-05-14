@@ -1,4 +1,11 @@
 /** @type {import('tailwindcss').Config} */
+function withOpacityValue(variable) {
+  return ({ opacityValue }) =>
+      opacityValue !== undefined
+          ? `rgba(var(${variable}), ${opacityValue})`
+          : `rgb(var(${variable}))`;
+}
+
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
@@ -71,12 +78,43 @@ module.exports = {
               dark: '#B88D4A'
             }
           }
+        },
+        nagcnl: {
+          white: withOpacityValue('--color-nagcnl-white'),
+          black: withOpacityValue('--color-nagcnl-black'),
+          yellow: withOpacityValue('--color-nagcnl-yellow'),
+          orange: withOpacityValue('--color-nagcnl-orange'),
+          green: withOpacityValue('--color-nagcnl-green'),
+          'green-light': withOpacityValue('--color-nagcnl-green-light'),
+          'green-dark': withOpacityValue('--color-nagcnl-green-dark'),
+          red: withOpacityValue('--color-nagcnl-red'),
+          tan: withOpacityValue('--color-nagcnl-tan'),
+          'gray-79': withOpacityValue('--color-nagcnl-gray-79'),
+          'gray-70': withOpacityValue('--color-nagcnl-gray-70'),
+          'gray-b9': withOpacityValue('--color-nagcnl-gray-b9'),
+          'gray-74': withOpacityValue('--color-nagcnl-gray-74'),
+        },
+        socials: {
+          facebook: "#1877f2",
+          youtube: "#ff0000"
         }
       },
       fontFamily: {
         heading: ['Playfair Display', 'serif'],
         body: ['Source Sans Pro', 'sans-serif'],
         mono: ['Source Code Pro', 'monospace'],
+        lora: ['Lora', 'serif'],
+        opensans: ['Open Sans', 'sans-serif']
+      },
+      screens: {
+        // Namespaced custom breakpoints
+        'bs-xs': '0px',
+        'bs-sm': '576px',
+        'bs-md': '768px',
+        'bs-lg': '992px',
+        'bs-xl': '1200px',
+        'bs-xxl': '1400px',
+        'bs-xxxl': '1650px',
       }
     }
   }

@@ -1,6 +1,10 @@
 @import "@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/dist/calcite/calcite.css";
 
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&family=Source+Code+Pro&family=Lora:wght@400;700&ital,wght@0,400;0,700&family=Open+Sans:wght@400;700&ital,wght@0,400;0,700&display=swap");
+
+@import url("./assets/fonts/fontawesome/css/all.css");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -70,6 +74,22 @@
   }
 }
 
+:root {
+  --color-nagcnl-white: 255, 255, 255;
+  --color-nagcnl-black: 0, 0, 0;
+  --color-nagcnl-yellow: 254, 198, 68;
+  --color-nagcnl-orange: 249, 103, 78;
+  --color-nagcnl-green: 0, 92, 73;
+  --color-nagcnl-green-light: 0, 168, 151;
+  --color-nagcnl-green-dark: 1, 44, 35;
+  --color-nagcnl-red: 211, 57, 18;
+  --color-nagcnl-tan: 255, 246, 228;
+  --color-nagcnl-gray-79: 121, 121, 121;
+  --color-nagcnl-gray-70: 112, 112, 112;
+  --color-nagcnl-gray-b9: 185, 185, 185;
+  --color-nagcnl-gray-74: 116, 116, 116;
+}
+
 #root,
 html,
 body {
@@ -78,11 +98,12 @@ body {
 
 arcgis-map {
   display: block;
-  height: 87vh;
+  height: 100%;
 }
 
 calcite-shell {
   position: relative;
+  height: 76.5vh;
 }
 
 calcite-shell-panel {
@@ -104,4 +125,215 @@ calcite-shell-panel {
 
 .esri-basemap-gallery:focus-within {
   outline: none;
+}
+
+.nagcnl-btn {
+  font-family: "Lora", serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.8;
+  border: 2px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 10px 30px;
+  text-decoration: none;
+  white-space: normal;
+  position: static;
+  transition: all 0.3s;
+}
+.nagcnl-btn:hover,
+.nagcnl-btn:focus,
+.nagcnl-btn:active,
+.nagcnl-btn:active:focus,
+.nagcnl-btn:not(:disabled):not(.disabled):active,
+.nagcnl-btn:not(:disabled):not(.disabled):active:focus {
+  text-decoration: none;
+}
+
+.nagcnl-btn:focus {
+  outline: 2px solid #00a897;
+}
+.nagcnl-btn:focus:not(:focus-visible) {
+  outline: 0;
+}
+
+.nagcnl-btn-primary,
+.nagcnl-btn-green {
+  color: #ffffff;
+  background: #005c49;
+  border-color: #005c49;
+}
+
+.nagcnl-btn-primary:hover,
+.nagcnl-btn-green:hover,
+.nagcnl-btn-primary:focus,
+.nagcnl-btn-green:focus,
+.nagcnl-btn-primary:active,
+.nagcnl-btn-green:active,
+.nagcnl-btn-primary:active:focus,
+.nagcnl-btn-green:active:focus,
+.nagcnl-btn-primary:not(:disabled):not(.disabled):active,
+.nagcnl-btn-green:not(:disabled):not(.disabled):active,
+.nagcnl-btn-primary:not(:disabled):not(.disabled):active:focus,
+.nagcnl-btn-green:not(:disabled):not(.disabled):active:focus {
+  background: #012c23;
+  border-color: #012c23;
+  color: #ffffff;
+}
+
+.nagcnl-btn-primary[disabled] {
+  color: #ffffff !important;
+}
+
+.nagcnl-btn-secondary,
+.nagcnl-btn-transparent-dark {
+  border-color: #00a897;
+  color: #000000;
+  background: #ffffff;
+}
+
+.nagcnl-btn-secondary:hover,
+.nagcnl-btn-transparent-dark:hover,
+.nagcnl-btn-secondary:focus,
+.nagcnl-btn-transparent-dark:focus,
+.nagcnl-btn-secondary:active,
+.nagcnl-btn-transparent-dark:active,
+.nagcnl-btn-secondary:active:focus,
+.nagcnl-btn-transparent-dark:active:focus,
+.nagcnl-btn-secondary:not(:disabled):not(.disabled):active,
+.nagcnl-btn-transparent-dark:not(:disabled):not(.disabled):active,
+.nagcnl-btn-secondary:not(:disabled):not(.disabled):active:focus,
+.nagcnl-btn-transparent-dark:not(:disabled):not(.disabled):active:focus {
+  border-color: #012c23;
+  background: #012c23;
+  color: #ffffff;
+}
+
+.nagcnl-btn-tan,
+.nagcnl-btn-tertiary {
+  border-color: #fff6e4;
+  color: #000000;
+  background: #fff6e4;
+}
+
+.nagcnl-btn-tan:hover,
+.nagcnl-btn-tertiary:hover,
+.nagcnl-btn-tan:focus,
+.nagcnl-btn-tertiary:focus,
+.nagcnl-btn-tan:active,
+.nagcnl-btn-tertiary:active,
+.nagcnl-btn-tan:active:focus,
+.nagcnl-btn-tertiary:active:focus,
+.nagcnl-btn-tan:not(:disabled):not(.disabled):active,
+.nagcnl-btn-tertiary:not(:disabled):not(.disabled):active,
+.nagcnl-btn-tan:not(:disabled):not(.disabled):active:focus,
+.nagcnl-btn-tertiary:not(:disabled):not(.disabled):active:focus {
+  border-color: #fff6e4;
+  background: #012c23;
+  color: #ffffff;
+}
+
+.nagcnl-btn-transparent-light {
+  border-color: #fff6e4;
+  color: #fff6e4;
+  background: transparent;
+}
+
+.nagcnl-btn-transparent-light:hover,
+.nagcnl-btn-transparent-light:focus,
+.nagcnl-btn-transparent-light:active,
+.nagcnl-btn-transparent-light:active:focus,
+.nagcnl-btn-transparent-light:not(:disabled):not(.disabled):active,
+.nagcnl-btn-transparent-light:not(:disabled):not(.disabled):active:focus {
+  border-color: #fff6e4;
+  background: #012c23;
+  color: #fff6e4;
+}
+
+.nagcnl-input-group {
+  display: flex;
+  width: 100%;
+}
+
+.nagcnl-input-group > :not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.nagcnl-input-group > :first-child {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.nagcnl-input-group > :last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.nagcnl-input-group > :not(:first-child) {
+  margin-left: -1px;
+}
+.nagcnl-input-group > .separator {
+  z-index: 3;
+}
+
+.bs-container {
+  width: 100%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@media (min-width: 576px) {
+  .bs-container {
+    max-width: 540px;
+  }
+}
+
+@media (min-width: 768px) {
+  .bs-container {
+    max-width: 720px;
+  }
+}
+
+@media (min-width: 992px) {
+  .bs-container {
+    max-width: 960px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .bs-container {
+    max-width: 1140px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .bs-container {
+    max-width: 1320px;
+  }
+}
+
+#mobile-navigation-toggle .bar-top,
+#mobile-navigation-toggle .bar-middle,
+#mobile-navigation-toggle .bar-bot {
+  display: block;
+  height: 3px;
+  width: 35px;
+  background: white;
+  margin: 5px 0;
+  transition: 0.3s ease all;
+  border-radius: 2px;
+}
+
+#mobile-navigation-toggle.open .bar-top {
+  transform: translateY(8px) rotate(45deg);
+}
+
+#mobile-navigation-toggle.open .bar-middle {
+  opacity: 0;
+}
+
+#mobile-navigation-toggle.open .bar-bot {
+  transform: translateY(-8px) rotate(-45deg);
 }
