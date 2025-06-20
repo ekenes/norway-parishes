@@ -39,10 +39,10 @@ const ContactUs = ({ referenceElement }) => {
                                 Email Us Directly
                             </div>
                             <CalciteLink 
-                                href="mailto:feedback@norwayparishes.com" 
+                                href="mailto:genealogy@nagcnl.org" 
                                 className="font-medium text-xs md:text-sm break-all text-[rgb(var(--color-nagcnl-green-light))]"
                             >
-                                feedback@norwayparishes.com
+                                genealogy@nagcnl.org
                             </CalciteLink>
                         </div>
                     </div>
