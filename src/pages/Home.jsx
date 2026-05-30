@@ -20,10 +20,8 @@ const Home = () => {
         ref={mapRef}
         onArcgisViewReadyChange={(e) => setMap(e.target)}
       >
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <arcgis-home position="top-left" />
-          <arcgis-zoom position="top-left" />
-        </div>
+        <arcgis-home slot="top-left" />
+        <arcgis-zoom slot="top-left" />
       </arcgis-map>
       <SidePanel mapElement={map} referenceElement={`#${mapId}`} />
     </calcite-shell>

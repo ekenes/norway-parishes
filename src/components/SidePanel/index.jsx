@@ -61,7 +61,6 @@ const SidePanel = (props) => {
   return (
     <calcite-shell-panel
       slot="panel-end"
-      position="end"
       width-scale="l"
       display-mode="dock"
       collapsed={isPanelCollapsed}
