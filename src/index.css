@@ -123,6 +123,15 @@ calcite-shell-panel {
   height: 80vh;
 }
 
+#basemap arcgis-basemap-gallery,
+#legend arcgis-legend,
+.esri-basemap-gallery,
+.esri-legend {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+}
+
 .esri-basemap-gallery:focus-within {
   outline: none;
 }

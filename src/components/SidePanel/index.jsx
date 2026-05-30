@@ -79,6 +79,7 @@ const SidePanel = (props) => {
           <calcite-action
             data-action-id="parish-search"
             text="Find a parish"
+            text-enabled
             icon="search"
             active={activePanel === "parish-search"}
             onClick={handleActionClick}
@@ -86,6 +87,7 @@ const SidePanel = (props) => {
           <calcite-action
             data-action-id="legend"
             text="Legend"
+            text-enabled
             icon="legend"
             active={activePanel === "legend"}
             onClick={handleActionClick}
@@ -93,6 +95,7 @@ const SidePanel = (props) => {
           <calcite-action
             data-action-id="basemap"
             text="Base Maps"
+            text-enabled
             icon="basemap"
             active={activePanel === "basemap"}
             onClick={handleActionClick}
