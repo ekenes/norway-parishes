@@ -3,12 +3,6 @@ import "@arcgis/map-components/dist/components/arcgis-map";
 import "@arcgis/map-components/dist/components/arcgis-zoom";
 import "@arcgis/map-components/dist/components/arcgis-home";
 import "@arcgis/map-components/dist/components/arcgis-features";
-import {
-  ArcgisMap,
-  ArcgisZoom,
-  ArcgisHome,
-} from "@arcgis/map-components-react";
-import { CalciteShell } from "@esri/calcite-components-react";
 import SidePanel from "../components/SidePanel";
 
 import "@arcgis/map-components/dist/components/arcgis-legend";
@@ -19,20 +13,20 @@ const Home = () => {
   const mapId = "arcgis-map";
 
   return (
-    <CalciteShell>
-      <ArcgisMap
+    <calcite-shell>
+      <arcgis-map
         id={mapId}
-        itemId="e52ddcfbc95847f780d299d452815502"
+        item-id="e52ddcfbc95847f780d299d452815502"
         ref={mapRef}
         onArcgisViewReadyChange={(e) => setMap(e.target)}
       >
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <ArcgisHome position="top-left" />
-          <ArcgisZoom position="top-left" />
+          <arcgis-home position="top-left" />
+          <arcgis-zoom position="top-left" />
         </div>
-      </ArcgisMap>
+      </arcgis-map>
       <SidePanel mapElement={map} referenceElement={`#${mapId}`} />
-    </CalciteShell>
+    </calcite-shell>
   );
 };
 

@@ -1,10 +1,4 @@
 import { useState } from "react";
-import {
-  CalciteShellPanel,
-  CalciteAction,
-  CalciteActionBar,
-  CalciteActionGroup,
-} from "@esri/calcite-components-react";
 import { useMapData } from "../../hooks/useMapData";
 import { useParishSearch } from "../../hooks/useParishSearch";
 import ParishSearch from "./ParishSearch";
@@ -65,16 +59,16 @@ const SidePanel = (props) => {
   };
 
   return (
-    <CalciteShellPanel
+    <calcite-shell-panel
       slot="panel-end"
       position="end"
-      widthScale="l"
-      displayMode="dock"
+      width-scale="l"
+      display-mode="dock"
       collapsed={isPanelCollapsed}
     >
-      <CalciteActionBar
+      <calcite-action-bar
         slot="action-bar"
-        expanded="true"
+        expanded
         style={{
           display: "flex",
           flexDirection: "column",
@@ -82,29 +76,29 @@ const SidePanel = (props) => {
         }}
       >
         {/* Top action group */}
-        <CalciteActionGroup style={{ flexShrink: 0 }}>
-          <CalciteAction
+        <calcite-action-group style={{ flexShrink: 0 }}>
+          <calcite-action
             data-action-id="parish-search"
             text="Find a parish"
             icon="search"
             active={activePanel === "parish-search"}
             onClick={handleActionClick}
           />
-          <CalciteAction
+          <calcite-action
             data-action-id="legend"
             text="Legend"
             icon="legend"
             active={activePanel === "legend"}
             onClick={handleActionClick}
           />
-          <CalciteAction
+          <calcite-action
             data-action-id="basemap"
             text="Base Maps"
             icon="basemap"
             active={activePanel === "basemap"}
             onClick={handleActionClick}
           />
-        </CalciteActionGroup>
+        </calcite-action-group>
 
         {/* Flexible spacer */}
         <div
@@ -117,23 +111,23 @@ const SidePanel = (props) => {
         ></div>
 
         {/* Bottom action group */}
-        <CalciteActionGroup style={{ flexShrink: 0, marginTop: "auto" }}>
-          <CalciteAction
+        <calcite-action-group style={{ flexShrink: 0, marginTop: "auto" }}>
+          <calcite-action
             data-action-id="contact-us"
             text="Contact Us"
             icon="speech-bubble"
             active={activePanel === "contact-us"}
             onClick={handleActionClick}
           />
-        </CalciteActionGroup>
+        </calcite-action-group>
 
         <calcite-tooltip slot="expand-tooltip">
           Toggle Action Bar
         </calcite-tooltip>
-      </CalciteActionBar>
+      </calcite-action-bar>
 
       {getPanelContent()}
-    </CalciteShellPanel>
+    </calcite-shell-panel>
   );
 };
 

@@ -1,10 +1,4 @@
 // components/SidePanel/ParishSearchPanel/CountySelect.jsx
-import {
-  CalciteLabel,
-  CalciteCombobox,
-  CalciteComboboxItem,
-} from "@esri/calcite-components-react";
-
 const CountySelect = ({ counties, selectedCounty, onSelect }) => {
   const handleSelection = (event) => {
     const selected = event.target?.value;
@@ -13,24 +7,24 @@ const CountySelect = ({ counties, selectedCounty, onSelect }) => {
   };
 
   return (
-    <CalciteLabel>
+    <calcite-label>
       County (fylke)
-      <CalciteCombobox
+      <calcite-combobox
         placeholder="Select county name"
-        selectionMode="single"
+        selection-mode="single"
         id="county-combobox"
         onCalciteComboboxChange={handleSelection}
       >
         {counties.map((county) => (
-          <CalciteComboboxItem
+          <calcite-combobox-item
             key={county}
             value={county}
-            textLabel={county}
+            text-label={county}
             selected={selectedCounty === county}
           />
         ))}
-      </CalciteCombobox>
-    </CalciteLabel>
+      </calcite-combobox>
+    </calcite-label>
   );
 };
 

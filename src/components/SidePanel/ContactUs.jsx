@@ -1,8 +1,6 @@
-import { CalcitePanel, CalciteLink } from "@esri/calcite-components-react";
-
 const ContactUs = ({ referenceElement }) => {
   return (
-    <CalcitePanel
+    <calcite-panel
       heading="Contact Us"
       id="contact-us"
       data-panel-id="contact-us"
@@ -44,12 +42,12 @@ const ContactUs = ({ referenceElement }) => {
               <div className="font-bold text-sm md:text-base mb-0.5 text-[rgb(var(--color-nagcnl-green))]">
                 Email Us Directly
               </div>
-              <CalciteLink
+              <calcite-link
                 href="mailto:genealogy@nagcnl.org"
                 className="font-medium text-xs md:text-sm break-all text-[rgb(var(--color-nagcnl-green-light))]"
               >
                 genealogy@nagcnl.org
-              </CalciteLink>
+              </calcite-link>
             </div>
           </div>
 
@@ -64,7 +62,7 @@ const ContactUs = ({ referenceElement }) => {
           Thanks for helping us improve our Norway Parishes Map!
         </div>
       </div>
-    </CalcitePanel>
+    </calcite-panel>
   );
 };
 

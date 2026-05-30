@@ -1,11 +1,5 @@
 // components/SidePanel/ParishSearchPanel/ParishSelect.jsx
 import { memo } from "react";
-import {
-  CalciteLabel,
-  CalciteCombobox,
-  CalciteComboboxItem,
-  CalciteComboboxItemGroup,
-} from "@esri/calcite-components-react";
 
 const ParishSelect = ({
   counties,
@@ -42,60 +36,66 @@ const ParishSelect = ({
     if (!parishes[county]?.[municipality]) return null;
 
     return parishes[county][municipality].map((parish) => (
-      <CalciteComboboxItem
+      <calcite-combobox-item
         key={`${county}-${municipality}-${parish}`}
         value={parish}
-        textLabel={parish}
+        text-label={parish}
         selected={selectedParish === parish}
       />
     ));
   };
 
   return (
-    <CalciteLabel>
+    <calcite-label>
       Local parish (sokn)
-      <CalciteCombobox
+      <calcite-combobox
         placeholder="Select local parish name"
-        selectionMode="single"
+        selection-mode="single"
         id="localparish-combobox"
         onCalciteComboboxChange={handleSelection}
       >
         {selectedCounty && selectedMunicipality ? (
-          <CalciteComboboxItemGroup key={selectedCounty} label={selectedCounty}>
-            <CalciteComboboxItemGroup
+          <calcite-combobox-item-group
+            key={selectedCounty}
+            label={selectedCounty}
+          >
+            <calcite-combobox-item-group
               key={`${selectedCounty}-${selectedMunicipality}`}
               label={selectedMunicipality}
             >
               {renderParishItems(selectedCounty, selectedMunicipality)}
-            </CalciteComboboxItemGroup>
-          </CalciteComboboxItemGroup>
+            </calcite-combobox-item-group>
+          </calcite-combobox-item-group>
         ) : selectedCounty ? (
-          <CalciteComboboxItemGroup key={selectedCounty} label={selectedCounty}>
+          <calcite-combobox-item-group
+            key={selectedCounty}
+            label={selectedCounty}
+          >
             {municipalities[selectedCounty]?.map((municipality) => (
-              <CalciteComboboxItemGroup
+              <calcite-combobox-item-group
                 key={`${selectedCounty}-${municipality}`}
                 label={municipality}
               >
                 {renderParishItems(selectedCounty, municipality)}
-              </CalciteComboboxItemGroup>
+              </calcite-combobox-item-group>
             ))}
-          </CalciteComboboxItemGroup>
+          </calcite-combobox-item-group>
         ) : (
           counties.map((county) => (
-            <CalciteComboboxItemGroup key={county} label={county}>
+            <calcite-combobox-item-group key={county} label={county}>
               {municipalities[county]?.map((municipality) => (
-                <CalciteComboboxItemGroup
+                <calcite-combobox-item-group
                   key={`${county}-${municipality}`}
                   label={municipality}
                 >
                   {renderParishItems(county, municipality)}
-                </CalciteComboboxItemGroup>
+                </calcite-combobox-item-group>
               ))}
-            </CalciteComboboxItemGroup>
+            </calcite-combobox-item-group>
           ))
         )}
-      </CalciteCombobox>
-    </CalciteLabel>
+      </calcite-combobox>
+    </calcite-label>
   );
 };
 

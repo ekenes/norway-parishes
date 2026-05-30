@@ -1,11 +1,5 @@
 // components/SidePanel/ParishSearchPanel/MunicipalitySelect.jsx
 import { memo } from "react";
-import {
-  CalciteLabel,
-  CalciteCombobox,
-  CalciteComboboxItem,
-  CalciteComboboxItemGroup,
-} from "@esri/calcite-components-react";
 
 const MunicipalitySelect = ({
   counties,
@@ -36,37 +30,40 @@ const MunicipalitySelect = ({
     if (!municipalities[county]) return null;
 
     return municipalities[county].map((municipality) => (
-      <CalciteComboboxItem
+      <calcite-combobox-item
         key={`${county}-${municipality}`}
         value={municipality}
-        textLabel={municipality}
+        text-label={municipality}
         selected={selectedMunicipality === municipality}
       />
     ));
   };
 
   return (
-    <CalciteLabel>
+    <calcite-label>
       Municipality
-      <CalciteCombobox
+      <calcite-combobox
         placeholder="Select municipality"
-        selectionMode="single"
+        selection-mode="single"
         id="municipality-combobox"
         onCalciteComboboxChange={handleSelection}
       >
         {selectedCounty ? (
-          <CalciteComboboxItemGroup key={selectedCounty} label={selectedCounty}>
+          <calcite-combobox-item-group
+            key={selectedCounty}
+            label={selectedCounty}
+          >
             {renderMunicipalityItems(selectedCounty)}
-          </CalciteComboboxItemGroup>
+          </calcite-combobox-item-group>
         ) : (
           counties.map((county) => (
-            <CalciteComboboxItemGroup key={county} label={county}>
+            <calcite-combobox-item-group key={county} label={county}>
               {renderMunicipalityItems(county)}
-            </CalciteComboboxItemGroup>
+            </calcite-combobox-item-group>
           ))
         )}
-      </CalciteCombobox>
-    </CalciteLabel>
+      </calcite-combobox>
+    </calcite-label>
   );
 };
 

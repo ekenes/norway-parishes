@@ -1,11 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  CalcitePanel,
-  CalciteLabel,
-  CalciteLoader,
-} from "@esri/calcite-components-react";
 import "@arcgis/map-components/dist/components/arcgis-search";
-import { ArcgisSearch } from "@arcgis/map-components-react";
 import CountySelect from "./CountySelect";
 import MunicipalitySelect from "./MunicipalitySelect";
 import ParishSelect from "./ParishSelect";
@@ -54,14 +48,14 @@ const ParishSearch = (props) => {
   };
 
   return (
-    <CalcitePanel
+    <calcite-panel
       heading="Find a parish"
       id="parish-search"
       data-panel-id="parish-search"
-      widthScale="l"
+      width-scale="l"
     >
       <div className="panel-content">
-        {loading && <CalciteLoader label="Loading data..." />}
+        {loading && <calcite-loader label="Loading data..." />}
         {!loading && (
           <>
             <div className="border border-stone-400 p-2 my-2">
@@ -88,24 +82,24 @@ const ParishSearch = (props) => {
               />
             </div>
             <div className="border border-stone-400 p-2 my-2">
-              <CalciteLabel>
+              <calcite-label>
                 Farm/property
-                <ArcgisSearch
+                <arcgis-search
                   id="parish-search-widget"
                   reference-element={referenceElement}
                   onArcgisSelectResult={onSearchResult}
                   onArcgisClear={onSearchClear}
-                  searchTerm={searchText}
-                  popupDisabled={true}
-                  maxSuggestions={100}
+                  search-term={searchText}
+                  popup-disabled={true}
+                  max-suggestions={100}
                   onArcgisSuggestComplete={onSuggestComplete}
                 />
-              </CalciteLabel>
+              </calcite-label>
             </div>
           </>
         )}
       </div>
-    </CalcitePanel>
+    </calcite-panel>
   );
 };
 

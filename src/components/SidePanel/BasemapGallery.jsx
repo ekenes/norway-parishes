@@ -1,7 +1,5 @@
 import "@arcgis/map-components/dist/components/arcgis-basemap-gallery";
-import { ArcgisBasemapGallery } from "@arcgis/map-components-react";
 import Basemap from "@arcgis/core/Basemap";
-import { CalcitePanel } from "@esri/calcite-components-react";
 
 const BasemapGallery = (props) => {
   const { referenceElement } = props;
@@ -13,17 +11,17 @@ const BasemapGallery = (props) => {
   ];
 
   return (
-    <CalcitePanel
+    <calcite-panel
       heading="BasemapGallery"
       id="basemap"
       data-panel-id="basemap"
       width-scale="l"
     >
-      <ArcgisBasemapGallery
+      <arcgis-basemap-gallery
         referenceElement={referenceElement}
         source={baseMapSources}
       />
-    </CalcitePanel>
+    </calcite-panel>
   );
 };
 
