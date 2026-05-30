@@ -1,4 +1,3 @@
-import LazyLoad from "vanilla-lazyload";
 import { useState, useEffect } from "react";
 import logo from "../../assets/images/nagcnl-logo-white.png";
 import logo2x from "../../assets/images/nagcnl-logo-white@2x.png";
@@ -16,16 +15,24 @@ const Navbar = () => {
 
   const toggleMobileLink = (idx) => {
     setMobileOpenIndexes((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
-  const listeners = ["load", "resize", "orientationchange"];
-  for (let listener of listeners) {
-    window.addEventListener(listener, () => {
-      setMenuOpen(false);
+  useEffect(() => {
+    const listeners = ["load", "resize", "orientationchange"];
+    const closeMenu = () => setMenuOpen(false);
+
+    listeners.forEach((eventName) => {
+      window.addEventListener(eventName, closeMenu);
     });
-  }
+
+    return () => {
+      listeners.forEach((eventName) => {
+        window.removeEventListener(eventName, closeMenu);
+      });
+    };
+  }, []);
 
   const upperLinks = [
     {
