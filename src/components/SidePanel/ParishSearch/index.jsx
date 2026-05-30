@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import "@arcgis/map-components/dist/components/arcgis-search";
 import CountySelect from "./CountySelect";
 import MunicipalitySelect from "./MunicipalitySelect";
@@ -17,7 +18,16 @@ const ParishSearch = (props) => {
     onSearchClear,
     searchText,
   } = props;
-  const loading = !counties || !parishes || !municipalities;
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!counties || !parishes || !municipalities) {
+      setLoading(true);
+      return;
+    }
+    setLoading(false);
+  }, [counties, parishes, municipalities]);
 
   const onSuggestComplete = (event) => {
     if (event.detail.results && event.detail.results.length > 0) {

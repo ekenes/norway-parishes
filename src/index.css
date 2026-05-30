@@ -1,118 +1,76 @@
 @import "@arcgis/core/assets/esri/themes/light/main.css";
 @import "@esri/calcite-components/main.css";
-@config "../tailwind.config.js";
-@import "tailwindcss";
 
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&family=Source+Code+Pro&family=Lora:wght@400;700&ital,wght@0,400;0,700&family=Open+Sans:wght@400;700&ital,wght@0,400;0,700&display=swap");
 
 @import url("./assets/fonts/fontawesome/css/all.css");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Custom base styles */
 @layer base {
   html {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    @apply antialiased;
   }
 
   body {
-    background-color: #f9fafb;
-    color: #111827;
+    @apply bg-gray-50 text-gray-900;
   }
 
   h1 {
-    font-size: 2.25rem;
-    line-height: 2.5rem;
-    font-weight: 700;
+    @apply text-4xl font-bold;
   }
 
   h2 {
-    font-size: 1.875rem;
-    line-height: 2.25rem;
-    font-weight: 700;
+    @apply text-3xl font-bold;
   }
 
   h3 {
-    font-size: 1.5rem;
-    line-height: 2rem;
-    font-weight: 700;
+    @apply text-2xl font-bold;
   }
 
   h4 {
-    font-size: 1.25rem;
-    line-height: 1.75rem;
-    font-weight: 700;
+    @apply text-xl font-bold;
   }
 }
 
 /* Custom component classes */
 @layer components {
   .btn {
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition:
-      color 200ms ease,
-      background-color 200ms ease,
-      border-color 200ms ease;
+    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
   }
 
   .btn-primary {
-    background-color: #3b82f6;
-    color: #ffffff;
-  }
-
-  .btn-primary:hover {
-    background-color: #2563eb;
+    @apply bg-blue-500 text-white hover:bg-blue-600;
   }
 
   .btn-secondary {
-    background-color: #e5e7eb;
-    color: #1f2937;
-  }
-
-  .btn-secondary:hover {
-    background-color: #d1d5db;
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300;
   }
 
   .input {
-    width: 100%;
-    padding: 0.5rem 1rem;
-    border: 1px solid #d1d5db;
-    border-radius: 0.5rem;
-    outline: none;
-  }
-
-  .input:focus {
-    box-shadow: 0 0 0 2px #3b82f6;
-    border-color: transparent;
+    @apply w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none;
   }
 
   .card {
-    background-color: #ffffff;
-    border-radius: 0.5rem;
-    box-shadow:
-      0 4px 6px -1px rgb(0 0 0 / 0.1),
-      0 2px 4px -2px rgb(0 0 0 / 0.1);
-    padding: 1.5rem;
+    @apply bg-white rounded-lg shadow-md p-6;
   }
 
   .container-custom {
-    max-width: 72rem;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
+    @apply max-w-6xl mx-auto px-4;
   }
 
   .container {
-    max-width: 100%;
+    @apply max-w-[100%];
   }
 }
 
 /* Custom animations */
 @layer utilities {
   .transition-custom {
-    transition: all 300ms ease-in-out;
+    @apply transition-all duration-300 ease-in-out;
   }
 }
 
