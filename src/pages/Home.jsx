@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@arcgis/map-components/dist/components/arcgis-map";
 import "@arcgis/map-components/dist/components/arcgis-zoom";
 import "@arcgis/map-components/dist/components/arcgis-home";
@@ -12,13 +12,31 @@ const Home = () => {
   const [map, setMap] = useState(null);
   const mapId = "arcgis-map";
 
+  useEffect(() => {
+    const mapEl = mapRef.current;
+    if (!mapEl) return;
+
+    const handleViewReady = () => {
+      setMap(mapEl);
+    };
+
+    mapEl.addEventListener("arcgisViewReadyChange", handleViewReady);
+
+    if (mapEl.ready) {
+      setMap(mapEl);
+    }
+
+    return () => {
+      mapEl.removeEventListener("arcgisViewReadyChange", handleViewReady);
+    };
+  }, []);
+
   return (
     <calcite-shell>
       <arcgis-map
         id={mapId}
         item-id="e52ddcfbc95847f780d299d452815502"
         ref={mapRef}
-        onArcgisViewReadyChange={(e) => setMap(e.target)}
       >
         <arcgis-home slot="top-left" />
         <arcgis-zoom slot="top-left" />

@@ -1,5 +1,5 @@
 // components/SidePanel/ParishSearchPanel/MunicipalitySelect.jsx
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 
 const MunicipalitySelect = ({
   counties,
@@ -8,23 +8,45 @@ const MunicipalitySelect = ({
   selectedMunicipality,
   onSelect,
 }) => {
-  const handleSelection = (event) => {
-    const selected = event.target?.value;
-    if (selected === selectedMunicipality) return;
+  const comboboxRef = useRef(null);
 
-    if (!selected) {
-      onSelect(selectedCounty);
-      return;
-    }
+  useEffect(() => {
+    const comboboxEl = comboboxRef.current;
+    if (!comboboxEl) return;
 
-    // Find the county for the selected municipality
-    for (const [county, municipalityList] of Object.entries(municipalities)) {
-      if (municipalityList?.includes(selected)) {
-        onSelect(county, selected);
+    const handleSelection = (event) => {
+      const selected =
+        event.currentTarget?.selectedItems?.[0]?.value ||
+        event.detail?.selectedItems?.[0]?.value ||
+        "";
+      if (selected === selectedMunicipality) return;
+
+      if (!selected) {
+        onSelect(selectedCounty);
         return;
       }
-    }
-  };
+
+      // Find the county for the selected municipality
+      for (const [county, municipalityList] of Object.entries(municipalities)) {
+        if (municipalityList?.includes(selected)) {
+          onSelect(county, selected);
+          return;
+        }
+      }
+    };
+
+    comboboxEl.addEventListener("calciteComboboxChange", handleSelection);
+
+    return () => {
+      comboboxEl.removeEventListener("calciteComboboxChange", handleSelection);
+    };
+  }, [municipalities, onSelect, selectedCounty, selectedMunicipality]);
+
+  useEffect(() => {
+    const comboboxEl = comboboxRef.current;
+    if (!comboboxEl) return;
+    comboboxEl.value = selectedMunicipality || "";
+  }, [selectedMunicipality]);
 
   const renderMunicipalityItems = (county) => {
     if (!municipalities[county]) return null;
@@ -34,7 +56,7 @@ const MunicipalitySelect = ({
         key={`${county}-${municipality}`}
         value={municipality}
         text-label={municipality}
-        selected={selectedMunicipality === municipality}
+        selected={selectedMunicipality === municipality ? true : undefined}
       />
     ));
   };
@@ -43,10 +65,10 @@ const MunicipalitySelect = ({
     <calcite-label>
       Municipality
       <calcite-combobox
+        ref={comboboxRef}
         placeholder="Select municipality"
         selection-mode="single"
         id="municipality-combobox"
-        onCalciteComboboxChange={handleSelection}
       >
         {selectedCounty ? (
           <calcite-combobox-item-group

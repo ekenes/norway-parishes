@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import "@arcgis/map-components/dist/components/arcgis-search";
 import CountySelect from "./CountySelect";
 import MunicipalitySelect from "./MunicipalitySelect";
@@ -20,6 +20,7 @@ const ParishSearch = (props) => {
   } = props;
 
   const [loading, setLoading] = useState(true);
+  const searchRef = useRef(null);
 
   useEffect(() => {
     if (!counties || !parishes || !municipalities) {
@@ -46,6 +47,21 @@ const ParishSearch = (props) => {
       }
     }
   };
+
+  useEffect(() => {
+    const searchEl = searchRef.current;
+    if (!searchEl) return;
+
+    searchEl.addEventListener("arcgisSelectResult", onSearchResult);
+    searchEl.addEventListener("arcgisClear", onSearchClear);
+    searchEl.addEventListener("arcgisSuggestComplete", onSuggestComplete);
+
+    return () => {
+      searchEl.removeEventListener("arcgisSelectResult", onSearchResult);
+      searchEl.removeEventListener("arcgisClear", onSearchClear);
+      searchEl.removeEventListener("arcgisSuggestComplete", onSuggestComplete);
+    };
+  }, [onSearchResult, onSearchClear]);
 
   return (
     <calcite-panel
@@ -86,13 +102,11 @@ const ParishSearch = (props) => {
                 Farm/property
                 <arcgis-search
                   id="parish-search-widget"
+                  ref={searchRef}
                   reference-element={referenceElement}
-                  onArcgisSelectResult={onSearchResult}
-                  onArcgisClear={onSearchClear}
                   search-term={searchText}
                   popup-disabled={true}
                   max-suggestions={100}
-                  onArcgisSuggestComplete={onSuggestComplete}
                 />
               </calcite-label>
             </div>

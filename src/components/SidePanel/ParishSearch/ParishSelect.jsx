@@ -1,5 +1,5 @@
 // components/SidePanel/ParishSearchPanel/ParishSelect.jsx
-import { memo } from "react";
+import { memo, useEffect, useRef } from "react";
 
 const ParishSelect = ({
   counties,
@@ -10,27 +10,55 @@ const ParishSelect = ({
   selectedParish,
   onSelect,
 }) => {
-  const handleSelection = (event) => {
-    const selected = event.target?.value;
-    if (selected === selectedParish) return;
+  const comboboxRef = useRef(null);
 
-    if (!selected) {
-      onSelect(selectedCounty, selectedMunicipality);
-      return;
-    }
+  useEffect(() => {
+    const comboboxEl = comboboxRef.current;
+    if (!comboboxEl) return;
 
-    // Find the county and municipality for the selected parish
-    for (const [county, municipalityMap] of Object.entries(parishes)) {
-      for (const [municipality, parishList] of Object.entries(
-        municipalityMap,
-      )) {
-        if (parishList?.includes(selected)) {
-          onSelect(county, municipality, selected);
-          return;
+    const handleSelection = (event) => {
+      const selected =
+        event.currentTarget?.selectedItems?.[0]?.value ||
+        event.detail?.selectedItems?.[0]?.value ||
+        "";
+      if (selected === selectedParish) return;
+
+      if (!selected) {
+        onSelect(selectedCounty, selectedMunicipality);
+        return;
+      }
+
+      // Find the county and municipality for the selected parish
+      for (const [county, municipalityMap] of Object.entries(parishes)) {
+        for (const [municipality, parishList] of Object.entries(
+          municipalityMap,
+        )) {
+          if (parishList?.includes(selected)) {
+            onSelect(county, municipality, selected);
+            return;
+          }
         }
       }
-    }
-  };
+    };
+
+    comboboxEl.addEventListener("calciteComboboxChange", handleSelection);
+
+    return () => {
+      comboboxEl.removeEventListener("calciteComboboxChange", handleSelection);
+    };
+  }, [
+    onSelect,
+    parishes,
+    selectedCounty,
+    selectedMunicipality,
+    selectedParish,
+  ]);
+
+  useEffect(() => {
+    const comboboxEl = comboboxRef.current;
+    if (!comboboxEl) return;
+    comboboxEl.value = selectedParish || "";
+  }, [selectedParish]);
 
   const renderParishItems = (county, municipality) => {
     if (!parishes[county]?.[municipality]) return null;
@@ -40,7 +68,7 @@ const ParishSelect = ({
         key={`${county}-${municipality}-${parish}`}
         value={parish}
         text-label={parish}
-        selected={selectedParish === parish}
+        selected={selectedParish === parish ? true : undefined}
       />
     ));
   };
@@ -49,10 +77,10 @@ const ParishSelect = ({
     <calcite-label>
       Local parish (sokn)
       <calcite-combobox
+        ref={comboboxRef}
         placeholder="Select local parish name"
         selection-mode="single"
         id="localparish-combobox"
-        onCalciteComboboxChange={handleSelection}
       >
         {selectedCounty && selectedMunicipality ? (
           <calcite-combobox-item-group
