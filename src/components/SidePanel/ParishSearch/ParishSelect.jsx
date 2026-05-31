@@ -67,7 +67,7 @@ const ParishSelect = ({
       <calcite-combobox-item
         key={`${county}-${municipality}-${parish}`}
         value={parish}
-        text-label={parish}
+        heading={parish}
         selected={selectedParish === parish ? true : undefined}
         active={selectedParish === parish ? true : undefined}
       />

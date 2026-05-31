@@ -55,7 +55,7 @@ const MunicipalitySelect = ({
       <calcite-combobox-item
         key={`${county}-${municipality}`}
         value={municipality}
-        text-label={municipality}
+        heading={municipality}
         selected={selectedMunicipality === municipality ? true : undefined}
         active={selectedMunicipality === municipality ? true : undefined}
       />
