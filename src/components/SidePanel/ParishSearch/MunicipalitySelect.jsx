@@ -56,6 +56,7 @@ const MunicipalitySelect = ({
         key={`${county}-${municipality}`}
         value={municipality}
         heading={municipality}
+        label={municipality}
         selected={selectedMunicipality === municipality ? true : undefined}
         active={selectedMunicipality === municipality ? true : undefined}
       />

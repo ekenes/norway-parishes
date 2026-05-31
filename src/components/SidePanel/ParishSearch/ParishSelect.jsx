@@ -68,6 +68,7 @@ const ParishSelect = ({
         key={`${county}-${municipality}-${parish}`}
         value={parish}
         heading={parish}
+        label={parish}
         selected={selectedParish === parish ? true : undefined}
         active={selectedParish === parish ? true : undefined}
       />
