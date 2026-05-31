@@ -57,6 +57,7 @@ const MunicipalitySelect = ({
         value={municipality}
         text-label={municipality}
         selected={selectedMunicipality === municipality ? true : undefined}
+        active={selectedMunicipality === municipality ? true : undefined}
       />
     ));
   };

@@ -69,6 +69,7 @@ const ParishSelect = ({
         value={parish}
         text-label={parish}
         selected={selectedParish === parish ? true : undefined}
+        active={selectedParish === parish ? true : undefined}
       />
     ));
   };

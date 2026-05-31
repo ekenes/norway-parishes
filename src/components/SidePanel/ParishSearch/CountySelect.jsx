@@ -45,6 +45,7 @@ const CountySelect = ({ counties, selectedCounty, onSelect }) => {
           key={county}
           value={county}
           label={county}
+          active={selectedCounty === county ? true : undefined}
           selected={selectedCounty === county ? true : undefined}
         />
       ))}
