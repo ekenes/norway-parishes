@@ -1,79 +1,94 @@
 // components/SidePanel/ParishSearchPanel/MunicipalitySelect.jsx
-import React from 'react';
-import {
-    CalciteLabel,
-    CalciteCombobox,
-    CalciteComboboxItem,
-    CalciteComboboxItemGroup
-} from "@esri/calcite-components-react";
+import { memo, useEffect, useRef } from "react";
 
 const MunicipalitySelect = ({
-    counties,
-    municipalities,
-    selectedCounty,
-    selectedMunicipality,
-    onSelect
+  counties,
+  municipalities,
+  selectedCounty,
+  selectedMunicipality,
+  onSelect,
 }) => {
+  const comboboxRef = useRef(null);
+
+  useEffect(() => {
+    const comboboxEl = comboboxRef.current;
+    if (!comboboxEl) return;
+
     const handleSelection = (event) => {
-        const selected = event.target?.value;
-        if (selected === selectedMunicipality) return;
+      const selected =
+        event.currentTarget?.selectedItems?.[0]?.value ||
+        event.detail?.selectedItems?.[0]?.value ||
+        "";
+      if (selected === selectedMunicipality) return;
 
-        if (!selected) {
-            onSelect(selectedCounty);
-            return;
-        }
+      if (!selected) {
+        onSelect(selectedCounty);
+        return;
+      }
 
-        // Find the county for the selected municipality
-        for (const [county, municipalityList] of Object.entries(municipalities)) {
-            if (municipalityList?.includes(selected)) {
-                onSelect(county, selected);
-                return;
-            }
+      // Find the county for the selected municipality
+      for (const [county, municipalityList] of Object.entries(municipalities)) {
+        if (municipalityList?.includes(selected)) {
+          onSelect(county, selected);
+          return;
         }
+      }
     };
 
-    const renderMunicipalityItems = (county) => {
-        if (!municipalities[county]) return null;
+    comboboxEl.addEventListener("calciteComboboxChange", handleSelection);
 
-        return municipalities[county].map((municipality) => (
-            <CalciteComboboxItem
-                key={`${county}-${municipality}`}
-                value={municipality}
-                textLabel={municipality}
-                selected={selectedMunicipality === municipality}
-            />
-        ));
+    return () => {
+      comboboxEl.removeEventListener("calciteComboboxChange", handleSelection);
     };
+  }, [municipalities, onSelect, selectedCounty, selectedMunicipality]);
 
-    return (
-        <CalciteLabel>
-            Municipality
-            <CalciteCombobox
-                placeholder="Select municipality"
-                selectionMode="single"
-                id="municipality-combobox"
-                onCalciteComboboxChange={handleSelection}
-            >
-                {selectedCounty ? (
-                    <CalciteComboboxItemGroup
-                        key={selectedCounty}
-                        label={selectedCounty}
-                    >
-                        {renderMunicipalityItems(selectedCounty)}
-                    </CalciteComboboxItemGroup>
-                ) : (
-                    counties.map(county => (
-                        <CalciteComboboxItemGroup
-                            key={county}
-                            label={county}
-                        >
-                            {renderMunicipalityItems(county)}
-                        </CalciteComboboxItemGroup>
-                    ))
-                )}
-            </CalciteCombobox>
-        </CalciteLabel>
-    );
+  useEffect(() => {
+    const comboboxEl = comboboxRef.current;
+    if (!comboboxEl) return;
+    comboboxEl.value = selectedMunicipality || "";
+  }, [selectedMunicipality]);
+
+  const renderMunicipalityItems = (county) => {
+    if (!municipalities[county]) return null;
+
+    return municipalities[county].map((municipality) => (
+      <calcite-combobox-item
+        key={`${county}-${municipality}`}
+        value={municipality}
+        heading={municipality}
+        label={municipality}
+        selected={selectedMunicipality === municipality ? true : undefined}
+        active={selectedMunicipality === municipality ? true : undefined}
+      />
+    ));
+  };
+
+  return (
+    <calcite-combobox
+      ref={comboboxRef}
+      placeholder="Select municipality"
+      selection-mode="single"
+      selection-appearance="highlight"
+      id="municipality-combobox"
+      label="Municipality (kommune)"
+      label-text="Municipality (kommune)"
+    >
+      {selectedCounty ? (
+        <calcite-combobox-item-group
+          key={selectedCounty}
+          label={selectedCounty}
+        >
+          {renderMunicipalityItems(selectedCounty)}
+        </calcite-combobox-item-group>
+      ) : (
+        counties.map((county) => (
+          <calcite-combobox-item-group key={county} label={county}>
+            {renderMunicipalityItems(county)}
+          </calcite-combobox-item-group>
+        ))
+      )}
+    </calcite-combobox>
+  );
 };
 
-export default React.memo(MunicipalitySelect);
+export default memo(MunicipalitySelect);

@@ -1,5 +1,5 @@
 @import "@arcgis/core/assets/esri/themes/light/main.css";
-@import "@esri/calcite-components/dist/calcite/calcite.css";
+@import "@esri/calcite-components/main.css";
 
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Sans+Pro:wght@400;600&family=Source+Code+Pro&family=Lora:wght@400;700&ital,wght@0,400;0,700&family=Open+Sans:wght@400;700&ital,wght@0,400;0,700&display=swap");
 
@@ -121,6 +121,15 @@ calcite-shell-panel {
 
 .esri-widget--panel {
   height: 80vh;
+}
+
+#basemap arcgis-basemap-gallery,
+#legend arcgis-legend,
+.esri-basemap-gallery,
+.esri-legend {
+  display: block;
+  width: 100%;
+  max-width: 100%;
 }
 
 .esri-basemap-gallery:focus-within {

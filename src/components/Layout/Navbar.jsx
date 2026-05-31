@@ -1,4 +1,3 @@
-import LazyLoad from "vanilla-lazyload";
 import { useState, useEffect } from "react";
 import logo from "../../assets/images/nagcnl-logo-white.png";
 import logo2x from "../../assets/images/nagcnl-logo-white@2x.png";
@@ -16,16 +15,24 @@ const Navbar = () => {
 
   const toggleMobileLink = (idx) => {
     setMobileOpenIndexes((prev) =>
-      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx]
+      prev.includes(idx) ? prev.filter((i) => i !== idx) : [...prev, idx],
     );
   };
 
-  const listeners = ["load", "resize", "orientationchange"];
-  for (let listener of listeners) {
-    window.addEventListener(listener, () => {
-      setMenuOpen(false);
+  useEffect(() => {
+    const listeners = ["load", "resize", "orientationchange"];
+    const closeMenu = () => setMenuOpen(false);
+
+    listeners.forEach((eventName) => {
+      window.addEventListener(eventName, closeMenu);
     });
-  }
+
+    return () => {
+      listeners.forEach((eventName) => {
+        window.removeEventListener(eventName, closeMenu);
+      });
+    };
+  }, []);
 
   const upperLinks = [
     {
@@ -172,18 +179,16 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <a href="/" className={`shrink-0`}>
             <img
-              src=""
+              src={logo}
               alt="NAGCNL Logo"
               className="hidden h-[50px] bs-xxl:block lazy"
-              data-srcset={`${logo2x} 2x, ${logo} 1x`}
-              data-src={logo}
+              srcSet={`${logo2x} 2x, ${logo} 1x`}
             />
             <img
-              src=""
+              src={mobileLogo}
               alt="NAGCNL Logo"
               className="block h-[50px] bs-xxl:hidden lazy"
-              data-srcset={`${mobileLogo2x} 2x, ${mobileLogo} 1x`}
-              data-src={mobileLogo}
+              srcSet={`${mobileLogo2x} 2x, ${mobileLogo} 1x`}
             />
           </a>
 

@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 //import logo from '../../assets/images/nagcnl-logo-color.png';
 //import logo2x from '../../assets/images/nagcnl-logo-color@2x.png';
 import logo from "../../assets/images/nagcnl-logo-white.png";
@@ -143,11 +142,10 @@ const Footer = () => {
         >
           <a href="/" className={`flex-1 py-[20px] px-[20px]`}>
             <img
-              src=""
+              src={logo}
               alt="NAGCNL Logo"
               className={` lazy`}
-              data-srcset={`${logo2x} 2x, ${logo} 1x`}
-              data-src={logo} // fallback if srcset isn't supported
+              srcSet={`${logo2x} 2x, ${logo} 1x`}
             />
           </a>
 
