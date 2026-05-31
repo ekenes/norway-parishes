@@ -75,27 +75,33 @@ const ParishSearch = (props) => {
         {!loading && (
           <>
             <div className="border border-stone-400 p-2 my-2">
-              <CountySelect
-                counties={counties}
-                selectedCounty={selectedCounty}
-                onSelect={onComboBoxSelect}
-              />
-              <MunicipalitySelect
-                counties={counties}
-                municipalities={municipalities}
-                selectedCounty={selectedCounty}
-                selectedMunicipality={selectedMunicipality}
-                onSelect={onComboBoxSelect}
-              />
-              <ParishSelect
-                counties={counties}
-                municipalities={municipalities}
-                parishes={parishes}
-                selectedCounty={selectedCounty}
-                selectedMunicipality={selectedMunicipality}
-                selectedParish={selectedParish}
-                onSelect={onComboBoxSelect}
-              />
+              <div className="mb-3">
+                <CountySelect
+                  counties={counties}
+                  selectedCounty={selectedCounty}
+                  onSelect={onComboBoxSelect}
+                />
+              </div>
+              <div className="mb-3">
+                <MunicipalitySelect
+                  counties={counties}
+                  municipalities={municipalities}
+                  selectedCounty={selectedCounty}
+                  selectedMunicipality={selectedMunicipality}
+                  onSelect={onComboBoxSelect}
+                />
+              </div>
+              <div>
+                <ParishSelect
+                  counties={counties}
+                  municipalities={municipalities}
+                  parishes={parishes}
+                  selectedCounty={selectedCounty}
+                  selectedMunicipality={selectedMunicipality}
+                  selectedParish={selectedParish}
+                  onSelect={onComboBoxSelect}
+                />
+              </div>
             </div>
             <div className="border border-stone-400 p-2 my-2">
               <calcite-label>
