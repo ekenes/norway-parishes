@@ -117,6 +117,7 @@ const SidePanel = (props) => {
           <calcite-action
             data-action-id="contact-us"
             text="Contact Us"
+            text-enabled
             icon="speech-bubble"
             active={activePanel === "contact-us"}
             onClick={handleActionClick}
