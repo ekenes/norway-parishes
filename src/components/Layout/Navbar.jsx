@@ -179,18 +179,16 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           <a href="/" className={`shrink-0`}>
             <img
-              src=""
+              src={logo}
               alt="NAGCNL Logo"
               className="hidden h-[50px] bs-xxl:block lazy"
-              data-srcset={`${logo2x} 2x, ${logo} 1x`}
-              data-src={logo}
+              srcSet={`${logo2x} 2x, ${logo} 1x`}
             />
             <img
-              src=""
+              src={mobileLogo}
               alt="NAGCNL Logo"
               className="block h-[50px] bs-xxl:hidden lazy"
-              data-srcset={`${mobileLogo2x} 2x, ${mobileLogo} 1x`}
-              data-src={mobileLogo}
+              srcSet={`${mobileLogo2x} 2x, ${mobileLogo} 1x`}
             />
           </a>
 

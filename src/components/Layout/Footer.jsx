@@ -142,11 +142,10 @@ const Footer = () => {
         >
           <a href="/" className={`flex-1 py-[20px] px-[20px]`}>
             <img
-              src=""
+              src={logo}
               alt="NAGCNL Logo"
               className={` lazy`}
-              data-srcset={`${logo2x} 2x, ${logo} 1x`}
-              data-src={logo} // fallback if srcset isn't supported
+              srcSet={`${logo2x} 2x, ${logo} 1x`}
             />
           </a>
 
