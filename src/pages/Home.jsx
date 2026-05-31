@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import "@arcgis/map-components/dist/components/arcgis-map";
 import "@arcgis/map-components/dist/components/arcgis-zoom";
 import "@arcgis/map-components/dist/components/arcgis-home";
+import "@arcgis/map-components/dist/components/arcgis-coordinate-conversion";
+import "@arcgis/map-components/dist/components/arcgis-expand";
 import "@arcgis/map-components/dist/components/arcgis-features";
 import SidePanel from "../components/SidePanel";
 
@@ -38,8 +40,15 @@ const Home = () => {
         item-id="e52ddcfbc95847f780d299d452815502"
         ref={mapRef}
       >
-        <arcgis-home slot="top-left" />
-        <arcgis-zoom slot="top-left" />
+        <arcgis-home slot="top-left"></arcgis-home>
+        <arcgis-zoom slot="top-left"></arcgis-zoom>
+        <arcgis-expand slot="bottom-left">
+          <arcgis-coordinate-conversion
+            mode="live"
+            orientation="auto"
+            hide-capture-button
+          ></arcgis-coordinate-conversion>
+        </arcgis-expand>
       </arcgis-map>
       <SidePanel mapElement={map} referenceElement={`#${mapId}`} />
     </calcite-shell>
