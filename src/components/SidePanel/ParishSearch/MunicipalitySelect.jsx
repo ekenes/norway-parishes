@@ -62,30 +62,30 @@ const MunicipalitySelect = ({
   };
 
   return (
-    <calcite-label>
-      Municipality
-      <calcite-combobox
-        ref={comboboxRef}
-        placeholder="Select municipality"
-        selection-mode="single"
-        id="municipality-combobox"
-      >
-        {selectedCounty ? (
-          <calcite-combobox-item-group
-            key={selectedCounty}
-            label={selectedCounty}
-          >
-            {renderMunicipalityItems(selectedCounty)}
+    <calcite-combobox
+      ref={comboboxRef}
+      placeholder="Select municipality"
+      selection-mode="single"
+      selection-appearance="highlight"
+      id="municipality-combobox"
+      label="Municipality (kommune)"
+      label-text="Municipality (kommune)"
+    >
+      {selectedCounty ? (
+        <calcite-combobox-item-group
+          key={selectedCounty}
+          label={selectedCounty}
+        >
+          {renderMunicipalityItems(selectedCounty)}
+        </calcite-combobox-item-group>
+      ) : (
+        counties.map((county) => (
+          <calcite-combobox-item-group key={county} label={county}>
+            {renderMunicipalityItems(county)}
           </calcite-combobox-item-group>
-        ) : (
-          counties.map((county) => (
-            <calcite-combobox-item-group key={county} label={county}>
-              {renderMunicipalityItems(county)}
-            </calcite-combobox-item-group>
-          ))
-        )}
-      </calcite-combobox>
-    </calcite-label>
+        ))
+      )}
+    </calcite-combobox>
   );
 };
 

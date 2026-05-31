@@ -31,24 +31,24 @@ const CountySelect = ({ counties, selectedCounty, onSelect }) => {
   }, [selectedCounty]);
 
   return (
-    <calcite-label>
-      County (fylke)
-      <calcite-combobox
-        ref={comboboxRef}
-        placeholder="Select county name"
-        selection-mode="single"
-        id="county-combobox"
-      >
-        {counties.map((county) => (
-          <calcite-combobox-item
-            key={county}
-            value={county}
-            text-label={county}
-            selected={selectedCounty === county ? true : undefined}
-          />
-        ))}
-      </calcite-combobox>
-    </calcite-label>
+    <calcite-combobox
+      ref={comboboxRef}
+      placeholder="Select county name"
+      selection-mode="single"
+      selection-appearance="highlight"
+      id="county-combobox"
+      label="County (fylke)"
+      label-text="County (fylke)"
+    >
+      {counties.map((county) => (
+        <calcite-combobox-item
+          key={county}
+          value={county}
+          label={county}
+          selected={selectedCounty === county ? true : undefined}
+        />
+      ))}
+    </calcite-combobox>
   );
 };
 
